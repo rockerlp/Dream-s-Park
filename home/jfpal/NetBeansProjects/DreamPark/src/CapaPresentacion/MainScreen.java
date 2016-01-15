@@ -35,13 +35,35 @@ public class MainScreen extends javax.swing.JPanel {
         CompBtn = new javax.swing.JButton();
         EmpBtn = new javax.swing.JButton();
 
+        EvntBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/calendar-128.png"))); // NOI18N
         EvntBtn.setText("EVENTOS");
+        EvntBtn.setAlignmentY(0.0F);
+        EvntBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        EvntBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        EvntBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        EvntBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        EvntBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        EvntBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        ClieBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/2901_-_Client_Meetup-128.png"))); // NOI18N
         ClieBtn.setText("CLIENTES");
+        ClieBtn.setAlignmentY(0.0F);
+        ClieBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ClieBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        ClieBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        ClieBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        ClieBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        ClieBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        ResBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icon-reservation.png"))); // NOI18N
         ResBtn.setText("RESERVACIONES");
+        ResBtn.setAlignmentY(0.0F);
+        ResBtn.setBorderPainted(false);
         ResBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ResBtn.setPreferredSize(new java.awt.Dimension(140, 161));
+        ResBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        ResBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        ResBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        ResBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         ResBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         ResBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -49,54 +71,78 @@ public class MainScreen extends javax.swing.JPanel {
             }
         });
 
+        ProvBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icon-moving.png"))); // NOI18N
         ProvBtn.setText("PROVEEDORES");
+        ProvBtn.setAlignmentY(0.0F);
+        ProvBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ProvBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        ProvBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        ProvBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        ProvBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        ProvBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jLabel1.setText("DREAM'S PARK");
 
+        CompBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/045-128.png"))); // NOI18N
         CompBtn.setText("COMPRAS");
+        CompBtn.setAlignmentY(0.0F);
+        CompBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        CompBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        CompBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        CompBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        CompBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        CompBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        EmpBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/1027-128.png"))); // NOI18N
         EmpBtn.setText("EMPLEADOS");
+        EmpBtn.setAlignmentY(0.0F);
+        EmpBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        EmpBtn.setMaximumSize(new java.awt.Dimension(161, 163));
+        EmpBtn.setMinimumSize(new java.awt.Dimension(161, 163));
+        EmpBtn.setPreferredSize(new java.awt.Dimension(161, 163));
+        EmpBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        EmpBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(383, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(297, 297, 297))
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(CompBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CompBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(ResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(90, 90, 90)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EvntBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ProvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                    .addComponent(EvntBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(ProvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ClieBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EmpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82))
+                    .addComponent(ClieBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(EmpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(EvntBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ClieBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EvntBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ResBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ClieBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(CompBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ProvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EmpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(CompBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ProvBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(EmpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(40, 40, 40))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -6,6 +6,7 @@
 package dreampark;
 
 import CapaDatos.Conexion;
+import CapaPresentacion.MainScreen;
 
 /**
  *
@@ -20,6 +21,9 @@ public class DreamPark {
         //inicializar conexion
         Conexion connect = new Conexion();
         connect.getData();
+        
+        MainScreen mc = new MainScreen();
+        mc.setVisible(true);
     }
     
 }
