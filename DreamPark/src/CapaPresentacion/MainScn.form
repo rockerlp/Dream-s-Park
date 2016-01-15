@@ -55,16 +55,14 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="51" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="ResBtn" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="ClieBtn" alignment="1" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="ResBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="ClieBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="EvntBtn" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="EmpBtn" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="0" attributes="0">
                       <Component id="CompBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="ProvBtn" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -182,6 +180,9 @@
         <Property name="verticalAlignment" type="int" value="1"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProvBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="EmpBtn">
       <Properties>
