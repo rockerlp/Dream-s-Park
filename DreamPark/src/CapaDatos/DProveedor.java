@@ -55,7 +55,7 @@ public class DProveedor {
         Connection con = new Conexion().getCon();
         PreparedStatement insSt =null;
         //ResultSet rs=null;
-        
+        int i=0;
         String resp="";
         String query ="INSERT INTO Proveedor(nombre,direccion,telefono)values(?,?,?)";
         
@@ -65,8 +65,8 @@ public class DProveedor {
            insSt.setString(1, dp.getNombre());
            insSt.setString(2, dp.getDir());
            insSt.setString(3, dp.getTelf());
-           insSt.executeUpdate();
-           if(insSt.executeUpdate()>0){
+           i=insSt.executeUpdate();
+           if(i>0){
                resp = "OK";
            }
            else{
