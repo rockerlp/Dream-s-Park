@@ -54,4 +54,13 @@ public class Conexion {
             System.out.println(e);
         }
     }
+
+    public Connection getCon() {
+        return con;
+    }
+
+    public void setCon(Connection con) {
+        this.con = con;
+    }
+    
 }

@@ -10,6 +10,8 @@ import javax.swing.DefaultListModel;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +24,7 @@ public class ProvScn extends javax.swing.JFrame {
      */
     public ProvScn() {
         initComponents();
+        this.IngBtn.setVisible(false);
     }
 
     /**
@@ -62,7 +65,6 @@ public class ProvScn extends javax.swing.JFrame {
         jLabel4.setText("Telefono");
 
         IngBtn.setText("INGRESAR");
-        IngBtn.setEnabled(false);
         IngBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IngBtnActionPerformed(evt);
@@ -176,7 +178,7 @@ public class ProvScn extends javax.swing.JFrame {
 
     private void CrearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBtnActionPerformed
 
-        this.IngBtn.enable(true);
+        this.IngBtn.setVisible(true);
         this.NomTxt.enable(true);
         this.DirTxt.enable(true);
         this.TelfTxt.enable(true);
@@ -184,7 +186,32 @@ public class ProvScn extends javax.swing.JFrame {
     }//GEN-LAST:event_CrearBtnActionPerformed
 
     private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
-        // TODO add your handling code here:
+        try{
+            String rpta="";
+            if(this.NomTxt.toString().isEmpty()||this.DirTxt.toString().isEmpty()||this.TelfTxt.toString().isEmpty()){
+                JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en uno de los campos. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                rpta = NProveedor.insertar(this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());
+                if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
+                    this.NomTxt.setText("");
+                    this.DirTxt.setText("");
+                    this.TelfTxt.setText("");                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+                
+                
+            }
+            
+        }
+        catch(Exception e){
+                   JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+
+        }
     }//GEN-LAST:event_IngBtnActionPerformed
 
     private void NomTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomTxtActionPerformed

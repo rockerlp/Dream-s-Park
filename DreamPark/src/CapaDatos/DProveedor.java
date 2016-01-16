@@ -50,6 +50,44 @@ public class DProveedor {
         }
         return rs;
     }
+    
+    public String InsertarProveedor(DProveedor dp) throws SQLException{
+        Connection con = new Conexion().getCon();
+        PreparedStatement insSt =null;
+        //ResultSet rs=null;
+        
+        String resp="";
+        String query ="INSERT INTO Proveedor(nombre,direccion,telefono)values(?,?,?)";
+        
+        try{
+            
+           insSt = con.prepareStatement(query);
+           insSt.setString(1, dp.getNombre());
+           insSt.setString(2, dp.getDir());
+           insSt.setString(3, dp.getTelf());
+           insSt.executeUpdate();
+           if(insSt.executeUpdate()>0){
+               resp = "OK";
+           }
+           else{
+               resp="No se Ingreso al Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(insSt !=null){
+                insSt.close();
+            }
+            if(con!=null){
+                con.close();
+            }
+            
+        }
+        return  resp;
+    }
 
     public int getIdProveedor() {
         return idProveedor;
