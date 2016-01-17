@@ -28,13 +28,13 @@ public class DProveedor {
         this.telf = telf;
     }
     
-    public ResultSet Mostrar(){
-        Connection con = null;
-        Statement st =null;
+    public ResultSet Mostrar() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
         ResultSet rs=null;
-        
+        String query ="select * from Proveedor";
         try{
-            String query ="select * from Proveedor";
+            
             rs = st.executeQuery(query);
             //System.out.println("Records from database");
             /*while(rs.next()){
