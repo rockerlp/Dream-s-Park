@@ -5,6 +5,7 @@
  */
 package CapaPresentacion;
 
+import CapaDatos.DProveedor;
 import CapaNegocios.NProveedor;
 import javax.swing.DefaultListModel;
 import java.sql.*;
@@ -92,13 +93,18 @@ public class ProvScn extends javax.swing.JFrame {
             }
         });
 
-        BuscBtn.setText("BUSCAR");
+        BuscBtn.setText("Actualizar");
         BuscBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscBtnActionPerformed(evt);
             }
         });
 
+        ListProv.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListProvValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(ListProv);
 
         jLabel1.setText("PROVEEDORES");
@@ -111,14 +117,17 @@ public class ProvScn extends javax.swing.JFrame {
                 .addGap(274, 274, 274)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(CrearBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BuscBtn)
-                .addGap(168, 168, 168))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(74, 74, 74)
+                .addComponent(IngBtn)
+                .addGap(0, 457, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(CrearBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BuscBtn))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -135,12 +144,9 @@ public class ProvScn extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addGap(44, 44, 44)
                                     .addComponent(NomTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(130, 130, 130)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(IngBtn)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,10 +235,16 @@ public class ProvScn extends javax.swing.JFrame {
     private void BuscBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscBtnActionPerformed
         DefaultListModel model = new DefaultListModel();
 
-        ResultSet rs = new NProveedor().Mostrar();
+        ResultSet rs = null;
+        try {
+            rs = new NProveedor().Mostrar();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             while(rs.next()){
                 String nombre = rs.getString("nombre");
+                
                 model.addElement(nombre);
             }
         } catch (SQLException ex) {
@@ -242,6 +254,17 @@ public class ProvScn extends javax.swing.JFrame {
         this.ListProv.setModel(model);
 
     }//GEN-LAST:event_BuscBtnActionPerformed
+
+    private void ListProvValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListProvValueChanged
+        Object result = ListProv.getSelectedValue();
+        if(result instanceof ResultSet){
+            JOptionPane.showMessageDialog(new JFrame(),"Seleccion");
+
+        }
+        else{
+            JOptionPane.showMessageDialog(new JFrame(),"Not selected");
+        }
+    }//GEN-LAST:event_ListProvValueChanged
 
     /**
      * @param args the command line arguments

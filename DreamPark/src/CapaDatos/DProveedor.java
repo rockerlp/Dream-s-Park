@@ -37,11 +37,11 @@ public class DProveedor {
             
             rs = st.executeQuery(query);
             //System.out.println("Records from database");
-            /*while(rs.next()){
-                String name = rs.getString("nombre");
-                String desc = rs.getString("direccion");
-                String telf = rs.getString("telf"); 
-            }*/
+           
+            //this.nombre=rs.getString("nombre");
+            //this.dir=rs.getString("direccion");
+            //this.telf=rs.getString("telf");
+            
             
         }
         catch(Exception e){

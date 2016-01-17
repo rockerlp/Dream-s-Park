@@ -16,7 +16,7 @@ public class NProveedor {
     }
    
     
-    public ResultSet Mostrar(){
+    public ResultSet Mostrar() throws SQLException{
         return new DProveedor().Mostrar();
     }
     
