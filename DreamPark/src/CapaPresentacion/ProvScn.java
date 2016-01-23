@@ -84,25 +84,10 @@ public class ProvScn extends javax.swing.JFrame {
         });
 
         NomTxt.setEnabled(false);
-        NomTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NomTxtActionPerformed(evt);
-            }
-        });
 
         DirTxt.setEnabled(false);
-        DirTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DirTxtActionPerformed(evt);
-            }
-        });
 
         TelfTxt.setEnabled(false);
-        TelfTxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelfTxtActionPerformed(evt);
-            }
-        });
 
         BuscBtn.setText("Actualizar");
         BuscBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -269,18 +254,6 @@ public class ProvScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
     }//GEN-LAST:event_IngBtnActionPerformed
 
-    private void NomTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NomTxtActionPerformed
-
-    private void DirTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DirTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DirTxtActionPerformed
-
-    private void TelfTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelfTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TelfTxtActionPerformed
-
     private void BuscBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscBtnActionPerformed
         GetData();
 
@@ -302,55 +275,12 @@ public class ProvScn extends javax.swing.JFrame {
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
-        int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
-        String rpta="";
-        try {
-            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta = NProveedor.Editar(Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString()),this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());
-            if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
-                    this.NomTxt.setText("");
-                    this.DirTxt.setText("");
-                    this.TelfTxt.setText("");
-                    this.NomTxt.enable(false);
-                    this.DirTxt.enable(false);
-                    this.TelfTxt.enable(false);
-                    this.EditBtn.setVisible(true);
-                    this.ElimBtn.setVisible(true);
-                    this.SaveBtn.setVisible(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
-        } catch (SQLException ex) {
-            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        SaveData();
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
+        DeleteData();
         
-        int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
-        String rpta="";
-        try {
-            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta = NProveedor.Eliminar(Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString()),this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());
-            if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
-                    this.NomTxt.setText("");
-                    this.DirTxt.setText("");
-                    this.TelfTxt.setText("");
-                    this.NomTxt.enable(false);
-                    this.DirTxt.enable(false);
-                    this.TelfTxt.enable(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
-        } catch (SQLException ex) {
-            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_ElimBtnActionPerformed
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
@@ -431,6 +361,57 @@ public class ProvScn extends javax.swing.JFrame {
         });
     }
     
+    public void DeleteData(){
+        int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NProveedor.Eliminar(Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString()),this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
+                    this.NomTxt.setText("");
+                    this.DirTxt.setText("");
+                    this.TelfTxt.setText("");
+                    this.NomTxt.enable(false);
+                    this.DirTxt.enable(false);
+                    this.TelfTxt.enable(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void SaveData(){
+        int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NProveedor.Editar(Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString()),this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.NomTxt.setText("");
+                    this.DirTxt.setText("");
+                    this.TelfTxt.setText("");
+                    this.NomTxt.enable(false);
+                    this.DirTxt.enable(false);
+                    this.TelfTxt.enable(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
    
     
     public void GetData(){
@@ -472,7 +453,6 @@ public class ProvScn extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Telfono. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
 
                 }
-                //JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en uno de los campos. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
             }
            else{
                 rpta = NProveedor.insertar(this.NomTxt.getText(), this.DirTxt.getText(), this.TelfTxt.getText());

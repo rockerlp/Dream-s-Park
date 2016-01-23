@@ -142,25 +142,16 @@
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NomTxtActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="DirTxt">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DirTxtActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="TelfTxt">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TelfTxtActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="BuscBtn">
       <Properties>
