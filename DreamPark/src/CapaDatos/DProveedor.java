@@ -5,6 +5,7 @@
  */
 package CapaDatos;
 import java.sql.*;
+import java.util.LinkedList;
 
 /**
  *
@@ -32,41 +33,41 @@ public class DProveedor {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Proveedor";
-        try{
-            
-            rs = st.executeQuery(query);
-            //System.out.println("Records from database");
-           
-            //this.nombre=rs.getString("nombre");
-            //this.dir=rs.getString("direccion");
-            //this.telf=rs.getString("telf");
-            
-            
+        String query ="select * from Mostrar_Proveedor";
+        try{            
+            rs = st.executeQuery(query);           
         }
         catch(Exception e){
             rs=null;
             System.out.println(e);
-        }
+        }        
         return rs;
     }
     
+    
+    private int getResultSetSize(ResultSet rs) throws SQLException{
+        int i=0;
+        while(rs.next()){
+            i++;
+        }
+        return i;
+    }
+    
     public String InsertarProveedor(DProveedor dp) throws SQLException{
-        Connection con = new Conexion().getCon();
-        PreparedStatement insSt =null;
-        //ResultSet rs=null;
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
         int i=0;
         String resp="";
-        String query ="INSERT INTO Proveedor(nombre,direccion,telefono)values(?,?,?)";
+        String query ="{call insertar_proveedor(?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setString(1, dp.getNombre());
+           calStat.setString(2, dp.getDir());
+           calStat.setString(3, dp.getTelf());
+           rs=calStat.executeQuery();          
         
-        try{
-            
-           insSt = con.prepareStatement(query);
-           insSt.setString(1, dp.getNombre());
-           insSt.setString(2, dp.getDir());
-           insSt.setString(3, dp.getTelf());
-           i=insSt.executeUpdate();
-           if(i>0){
+           if(rs!=null){
                resp = "OK";
            }
            else{
@@ -78,13 +79,83 @@ public class DProveedor {
             return resp=e.getMessage();
         }
         finally{
-            if(insSt !=null){
-                insSt.close();
+            if(calStat !=null){
+                calStat.close();
             }
             if(con!=null){
                 con.close();
-            }
+            }            
+        }
+        return  resp;
+    }
+    
+    public String EditarProveedor(DProveedor dp) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Editar_proveedor(?,?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, dp.getIdProveedor());
+           calStat.setString(2, dp.getNombre());
+           calStat.setString(3, dp.getDir());
+           calStat.setString(4, dp.getTelf());
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Edito Registro...";
+           }
             
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    public String EliminarProveedor(DProveedor dp) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Borrar_proveedor(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, dp.getIdProveedor());
+           
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Elimo el Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
         }
         return  resp;
     }

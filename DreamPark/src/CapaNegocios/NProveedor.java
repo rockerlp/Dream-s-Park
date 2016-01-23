@@ -6,6 +6,7 @@
 package CapaNegocios;
 import CapaDatos.DProveedor;
 import java.sql.*;
+import java.util.LinkedList;
 /**
  *
  * @author jfpal
@@ -26,6 +27,24 @@ public class NProveedor {
         obj.setDir(dir);
         obj.setTelf(telf);
         return obj.InsertarProveedor(obj);
+        
+    }
+    public static String Editar(int idProveedor,String nombre, String dir, String telf) throws SQLException{
+        DProveedor obj = new DProveedor();
+        obj.setIdProveedor(idProveedor);
+        obj.setNombre(nombre);
+        obj.setDir(dir);
+        obj.setTelf(telf);
+        return obj.EditarProveedor(obj);
+        
+    }
+    public static String Eliminar(int idProveedor,String nombre, String dir, String telf) throws SQLException{
+        DProveedor obj = new DProveedor();
+        obj.setIdProveedor(idProveedor);
+        obj.setNombre(nombre);
+        obj.setDir(dir);
+        obj.setTelf(telf);
+        return obj.EliminarProveedor(obj);
         
     }
     
