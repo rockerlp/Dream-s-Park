@@ -383,6 +383,7 @@ public class ProvScn extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
+        GetData();
     }
     
     public void SaveData(){
@@ -410,6 +411,7 @@ public class ProvScn extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
+        GetData();
     }
     
    
@@ -480,6 +482,7 @@ public class ProvScn extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
 
         }
+        GetData();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
