@@ -251,7 +251,13 @@ public class ProvScn extends javax.swing.JFrame {
         this.NomTxt.enable(false);
         this.DirTxt.enable(false);
         this.TelfTxt.enable(false);
-        this.CancelBtn.setVisible(false);
+        if(this.CrearBtn.isEnabled()){
+            this.CancelBtn.setVisible(false);
+        }
+        else{
+            this.CancelBtn.setVisible(true);
+        }
+        
     }//GEN-LAST:event_IngBtnActionPerformed
 
     private void BuscBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscBtnActionPerformed
@@ -276,10 +282,19 @@ public class ProvScn extends javax.swing.JFrame {
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
         SaveData();
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.CrearBtn.setVisible(true);
+        
     }//GEN-LAST:event_SaveBtnActionPerformed
 
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
         DeleteData();
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.CrearBtn.setVisible(true);
         
     }//GEN-LAST:event_ElimBtnActionPerformed
 
