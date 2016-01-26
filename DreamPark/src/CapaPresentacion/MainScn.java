@@ -81,6 +81,11 @@ public class MainScn extends javax.swing.JFrame {
         CompBtn.setPreferredSize(new java.awt.Dimension(161, 163));
         CompBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         CompBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        CompBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompBtnActionPerformed(evt);
+            }
+        });
 
         ProvBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icon-moving.png"))); // NOI18N
         ProvBtn.setText("PROVEEDORES");
@@ -163,6 +168,12 @@ public class MainScn extends javax.swing.JFrame {
         ProvScn pScn = new ProvScn();
         pScn.setVisible(true);
     }//GEN-LAST:event_ProvBtnActionPerformed
+
+    private void CompBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompBtnActionPerformed
+        // TODO add your handling code here:
+        InventarioScn cScn = new InventarioScn();
+        cScn.setVisible(true);
+    }//GEN-LAST:event_CompBtnActionPerformed
 
     /**
      * @param args the command line arguments

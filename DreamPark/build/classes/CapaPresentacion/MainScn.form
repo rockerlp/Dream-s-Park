@@ -159,6 +159,9 @@
         <Property name="verticalAlignment" type="int" value="1"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CompBtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ProvBtn">
       <Properties>

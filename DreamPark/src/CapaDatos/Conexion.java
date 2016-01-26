@@ -22,9 +22,7 @@ public class Conexion {
     
        
     public Conexion(){
-        try{
-            
-            
+        try{          
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://localhost/EMP"+"username"+"password");
