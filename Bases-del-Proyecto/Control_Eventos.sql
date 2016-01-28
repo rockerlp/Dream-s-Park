@@ -21,7 +21,7 @@ delimiter ;
 
 delimiter |
 create view Mostrar_Evento as
-select e.idEventos, e.fecha,e.salon,e.numPersonas, e.Descripcion, e.costo from Eventos e;
+select *from Eventos e;
 |
 delimiter ;
 
