@@ -6,6 +6,8 @@
 package CapaNegocios;
 import CapaDatos.DInventario;
 import java.sql.*;
+import java.util.LinkedList;
+
 
 /**
  *
@@ -18,14 +20,32 @@ public class NInventario {
         return new DInventario().Mostrar();
     }
     
-    public static String insertar(String nombre, int cantidad, int tipo, String descripcion, double pCompra, double pVenta) throws SQLException{
+    public static String insertar(String nombre, String cantidad, String pCompra, String pVenta) throws SQLException{
         DInventario obj = new DInventario();       
         obj.setNombre(nombre);
         obj.setCantidad(cantidad);
-        obj.setTipo(tipo);
-        obj.setDescripcion(descripcion);
         obj.setpCompra(pCompra);
         obj.setpVenta(pVenta);
         return obj.InsertarInventario(obj);
+    }
+    public static String Editar(int idInventario,String nombre, String cantidad, String pCmp, String pVta) throws SQLException{
+        DInventario obj = new DInventario();
+        obj.setIdInventario(idInventario);
+        obj.setNombre(nombre);
+        obj.setCantidad(cantidad);
+        obj.setpCompra(pCmp);
+        obj.setpVenta(pVta);
+        return obj.EditarInv(obj);
+        
+    }
+    public static String Eliminar(int idInventario,String nombre, String cantidad, String pCmp, String pVta) throws SQLException{
+        DInventario obj = new DInventario();
+        obj.setIdInventario(idInventario);
+        obj.setNombre(nombre);
+        obj.setCantidad(cantidad);
+        obj.setpCompra(pCmp);
+        obj.setpVenta(pVta);
+        return obj.EliminarInv(obj);
+        
     }
 }

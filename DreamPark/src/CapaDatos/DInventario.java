@@ -5,6 +5,7 @@
  */
 package CapaDatos;
 import java.sql.*;
+import java.util.LinkedList;
 
 /**
  *
@@ -13,22 +14,18 @@ import java.sql.*;
 public class DInventario {
     private int idInventario;
     private String nombre;
-    private int cantidad;
-    private int tipo;
-    private String descripcion;
-    private double pCompra;
-    private double pVenta;
+    private String cantidad;
+    private String pCompra;
+    private String pVenta;
         
     private String buscar;
     
     public DInventario(){        
     }
-    public DInventario(int idInventario, String nombre, int cantidad,int tipo, String descripcion,double pCompra,double pVenta) {
+    public DInventario(int idInventario, String nombre, String cantidad, String pCompra,String pVenta) {
         this.idInventario = idInventario;
         this.nombre = nombre;
         this.cantidad = cantidad;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
         this.pCompra = pCompra;
         this.pVenta = pVenta;
     }
@@ -48,25 +45,30 @@ public class DInventario {
         }
         return rs;
     }
+    private int getResultSetSize(ResultSet rs) throws SQLException{
+        int i=0;
+        while(rs.next()){
+            i++;
+        }
+        return i;
+    }
     public String InsertarInventario(DInventario di) throws SQLException{
         Connection con = new Conexion().getCon();
-        PreparedStatement insSt =null;
-        //ResultSet rs=null;
+        CallableStatement calStat=null;
+        ResultSet rs=null;
         int i=0;
         String resp="";
-        String query ="INSERT INTO Inventario(nombre,cantidad,tipo,descripcion,precioCompra,precioVenta)values(?,?,?,?,?,?)";
+        String query ="{call insertar_proveedor(?,?,?,?)}";
         
         try{
+            calStat = con.prepareCall(query);
+            calStat.setString(1, di.getNombre());
+            calStat.setString(2, di.getCantidad());
+            calStat.setString(3, di.getpCompra());
+            calStat.setString(4, di.getpVenta());
+            rs=calStat.executeQuery();
             
-           insSt = con.prepareStatement(query);
-           insSt.setString(1, di.getNombre());
-           insSt.setInt(2, di.getCantidad());
-           insSt.setInt(3, di.getTipo());
-           insSt.setString(4, di.getDescripcion());
-           insSt.setDouble(5, di.getpCompra());
-           insSt.setDouble(6, di.getpVenta());
-           i=insSt.executeUpdate();
-           if(i>0){
+            if(rs!=null){
                resp = "OK";
            }
            else{
@@ -78,8 +80,8 @@ public class DInventario {
             return resp=e.getMessage();
         }
         finally{
-            if(insSt !=null){
-                insSt.close();
+            if(calStat !=null){
+                calStat.close();
             }
             if(con!=null){
                 con.close();
@@ -88,54 +90,126 @@ public class DInventario {
         }
         return  resp;
     }
+    public String EditarInv(DInventario di) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call editarInventario(?,?,?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, di.getIdInventario());
+           calStat.setString(2, di.getNombre());
+           calStat.setString(3, di.getCantidad());
+           calStat.setString(4, di.getpCompra());
+           calStat.setString(5, di.getpVenta());
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Edito Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    public String EliminarInv(DInventario di) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call borrarInventario(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, di.getIdInventario());
+           
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Elimo el Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
 
     public int getIdInventario() {
         return idInventario;
     }
+
     public void setIdInventario(int idInventario) {
         this.idInventario = idInventario;
     }
+
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public int getCantidad() {
+
+    public String getCantidad() {
         return cantidad;
     }
-    public void setCantidad(int cantidad) {
+
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
-    public int getTipo() {
-        return tipo;
-    }
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    public double getpCompra() {
+
+    public String getpCompra() {
         return pCompra;
     }
-    public void setpCompra(double pCompra) {
+
+    public void setpCompra(String pCompra) {
         this.pCompra = pCompra;
     }
-    public double getpVenta() {
+
+    public String getpVenta() {
         return pVenta;
     }
-    public void setpVenta(double pVenta) {
+
+    public void setpVenta(String pVenta) {
         this.pVenta = pVenta;
     }
+
     public String getBuscar() {
         return buscar;
     }
+
     public void setBuscar(String buscar) {
         this.buscar = buscar;
     }
+
+    
     
 }
