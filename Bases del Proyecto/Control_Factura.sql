@@ -23,8 +23,9 @@ delimiter ;
 delimiter |
 create procedure Editar_Factura(in idF int,in fech date, in des varchar(45),in sub double, in ivC double, in ivD double, in tot double,in idEv int)
 begin 
-	
+	set foreign_key_checks=0;
 	update Factura set fecha=fech,descripcion=des,subtotal=sub,ivaCero=ivC,ivaDoce=ivD,total=tot,Eventos_idEventos=idEv where idFactura=idF;
+	set foreign_key_checks=0;
 end
 |
 delimiter ;
