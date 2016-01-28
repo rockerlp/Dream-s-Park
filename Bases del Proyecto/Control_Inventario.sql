@@ -19,10 +19,10 @@ create view Mostrar_Inventario as
 delimiter ;
 
 delimiter |
-create procedure Editar_Inventario(in idTip int,in nom varchar(20),in cant int, in prC double, in pcV double,in idTip int)
+create procedure Editar_Inventario(in idInv int,in nom varchar(20),in cant int, in prC double, in pcV double,in idTip int)
 begin 
 	
-	update Inventario set nombre=nom,cantidad=cant,precioCompra=prC,precioVenta=pcV,Tipo_Inventario_id=idTip where Tipo_Inventario_ido=idTip;
+	update Inventario set nombre=nom,cantidad=cant,precioCompra=prC,precioVenta=pcV,Tipo_Inventario_id=idTip where Tipo_Inventario_ido=idInv;
 end
 |
 delimiter ;
