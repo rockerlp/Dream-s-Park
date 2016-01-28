@@ -13,12 +13,6 @@ end
 |
 delimiter ;
 
--- delimiter |
--- create view Mostrar_Evento_Tipo as
--- 	select e.idEventos, e.fecha,e.salon,e.numPersonas, e.Descripcion, e.costo,tp.Nombre,tp.Descripcion from Eventos e join Tipo_Evento tp on e.Tipo_Evento_idTipo_Evento=tp.idTipo_Evento;
--- |
--- delimiter ;
-
 delimiter |
 create view Mostrar_Evento as
 select *from Eventos e;

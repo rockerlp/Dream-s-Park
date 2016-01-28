@@ -9,8 +9,6 @@ end
 |
 delimiter ;
 
-
-
 delimiter |
 create view Mostrar_Tipo_Evento as
 	select * from Tipo_Evento;
