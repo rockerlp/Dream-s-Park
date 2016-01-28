@@ -28,7 +28,7 @@ end
 delimiter ;
 
 delimiter |
-create procedure Borrar_persona(in idTem int)
+create procedure Borrar_Tematica(in idTem int)
 begin 
 	
 	delete from Tematica where dTematica=idTem;
