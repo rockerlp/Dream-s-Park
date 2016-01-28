@@ -26,7 +26,7 @@ delimiter |
 create procedure Editar_detalle_evento(in idE int,in idInv int , in idEv int)
 begin 
 	set foreign_key_checks=0;
-	update detalleEvento set Extras_idExtras=idE,Inventario_idInventario=idInv,Eventos_idEventos=idEv;
+	update detalleEvento set Extras_idExtras=idE,Inventario_idInventario=idInv where Eventos_idEventos=idEv;
 	set foreign_key_checks=1;
 end
 |
