@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -85,13 +85,15 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="crearCompra" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="edit" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="actualiza" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="guarda" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="elimina" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cancela" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="crearCompra" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="edit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="guarda" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="elimina" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cancela" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
