@@ -23,8 +23,10 @@ delimiter ;
 delimiter |
 create procedure Editar_Empleado(in idPers int,in CR varchar(13),in nom varchar(25),in ape varchar(25),in fnac date, in dir varchar(35),in idEmp int,in idC int,in idH int)
 begin 
+	set foreign_key_checks=0;
 	call Editar_persona(idPers,CR,nom,ape,fnac,dir);
 	update Empleado set Cargo_idCargo=idC,Horario_idHorario=idH where idEmpleado=idEmp;
+	set foreign_key_checks=1;
 end
 |
 delimiter ;
