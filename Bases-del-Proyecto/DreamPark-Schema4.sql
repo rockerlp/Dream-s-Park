@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `ProyectoBD`.`Tematica` ;
 CREATE TABLE IF NOT EXISTS `ProyectoBD`.`Tematica` (
   `idTematica` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(20) NOT NULL,
-  `Descripcion` VARCHAR(45) NULL,
+  `Descripcion` VARCHAR(100) NULL,
   PRIMARY KEY (`idTematica`))
 ENGINE = InnoDB;
 
@@ -160,7 +160,7 @@ DROP TABLE IF EXISTS `ProyectoBD`.`Estado_Reservacion` ;
 CREATE TABLE IF NOT EXISTS `ProyectoBD`.`Estado_Reservacion` (
   `idEstado_Reservacion` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
-  `Descripcion` VARCHAR(45) NULL,
+  `Descripcion` VARCHAR(100) NULL,
   PRIMARY KEY (`idEstado_Reservacion`))
 ENGINE = InnoDB;
 
