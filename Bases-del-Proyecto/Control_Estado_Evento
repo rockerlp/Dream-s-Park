@@ -1,0 +1,36 @@
+use ProyectoBD;
+
+
+delimiter |
+create procedure insertar_Estado_Evento(in nom varchar(45),in des varchar(100))
+begin 
+	insert into Estado_Evento (Nombre,Descripcion)values(nom,des);
+end
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Estado_Evento as
+	select Nombre,Descripcion from Estado_Evento;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Editar_Estado_Evento(in idEst int, in nom varchar(20),in des varchar(100))
+begin 
+	
+	update Estado_Evento set Nombre=nom,Descripcion=des where idEstado_Evento=idEst;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Borrar_Estado_Evento (in idEst int)
+begin 
+	
+	delete from Estado_Evento where idEstado_Evento=idEst;
+	
+end
+|
+delimiter ;
