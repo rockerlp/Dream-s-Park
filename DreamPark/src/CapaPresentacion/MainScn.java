@@ -111,6 +111,11 @@ public class MainScn extends javax.swing.JFrame {
         EmpBtn.setPreferredSize(new java.awt.Dimension(161, 163));
         EmpBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         EmpBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        EmpBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmpBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("DREAM'S PARK");
 
@@ -174,6 +179,12 @@ public class MainScn extends javax.swing.JFrame {
         InventarioScn cScn = new InventarioScn();
         cScn.setVisible(true);
     }//GEN-LAST:event_CompBtnActionPerformed
+
+    private void EmpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmpBtnActionPerformed
+        // TODO add your handling code here:
+        EmpleadoScn eScn = new EmpleadoScn();
+        eScn.setVisible(true);
+    }//GEN-LAST:event_EmpBtnActionPerformed
 
     /**
      * @param args the command line arguments
