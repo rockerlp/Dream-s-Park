@@ -10,9 +10,27 @@ end
 delimiter ;
 
 delimiter |
-create view Mostrar_Cargo as
+create view Mostrar_Cargo_Completo as
 	select * from Cargo;
 
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Cargo_Nombre(in nom varchar(20))
+begin 
+	
+	select idCargo from Cargo where Nombre=nom;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Horario_Nombre(in nom varchar(45))
+begin 
+	
+	select idHorario from Horario where Nombre=nom;
+end
 |
 delimiter ;
 
