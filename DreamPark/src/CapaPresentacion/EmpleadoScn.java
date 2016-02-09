@@ -7,15 +7,20 @@ package CapaPresentacion;
 
 import CapaNegocios.NEmpleado;
 import CapaNegocios.NProveedor;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,6 +39,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        GetDataHorario();
     }
     
     /**
@@ -78,7 +84,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idP", "Nombres", "Apellidos", "Direccion", "Edad", "Cargo", "Horario"
+                "CI", "Nombres", "Apellidos", "Direccion", "Edad", "Cargo", "Horario"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -92,9 +98,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         empTbl.setEnabled(false);
         jScrollPane1.setViewportView(empTbl);
         if (empTbl.getColumnModel().getColumnCount() > 0) {
-            empTbl.getColumnModel().getColumn(0).setMinWidth(0);
-            empTbl.getColumnModel().getColumn(0).setPreferredWidth(0);
-            empTbl.getColumnModel().getColumn(0).setMaxWidth(0);
+            empTbl.getColumnModel().getColumn(0).setResizable(false);
             empTbl.getColumnModel().getColumn(1).setResizable(false);
             empTbl.getColumnModel().getColumn(2).setResizable(false);
             empTbl.getColumnModel().getColumn(3).setResizable(false);
@@ -409,7 +413,6 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
-        
     }//GEN-LAST:event_ElimBtnActionPerformed
     
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
@@ -476,11 +479,12 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.crgCombo.setSelectedIndex(0);
         this.horCombo.setSelectedIndex(0);
     }//GEN-LAST:event_CrearBtnActionPerformed
-
+    
     private void crgComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crgComboActionPerformed
         // TODO add your handling code here:
+        
         this.crgCombo.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
@@ -495,12 +499,12 @@ public class EmpleadoScn extends javax.swing.JFrame {
         });
         this.crgCombo.setSelectedIndex(0);
     }//GEN-LAST:event_crgComboActionPerformed
-
+    
     private void horComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horComboActionPerformed
         // TODO add your handling code here:
         
         this.horCombo.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
@@ -514,6 +518,91 @@ public class EmpleadoScn extends javax.swing.JFrame {
         });
         this.horCombo.setSelectedIndex(0);
     }//GEN-LAST:event_horComboActionPerformed
+    
+    public void GetData(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NEmpleado().Mostrar();
+            if(this.empTbl.getRowCount()!=0){
+                model = (DefaultTableModel)this.empTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.empTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getString("Cedula"),
+                    rs.getString("Nombres"),
+                    rs.getString("Apellidos"), rs.getInt("Edad"),
+                    rs.getString("Direccion"),rs.getString("Cargo"),
+                    rs.getString("Horario") });
+            }
+            this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void GetDataCargo(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NEmpleado().MostrarCargosNombres();
+            if(this.crgCombo.getItemCount()==2){
+                //model = (DefaultTableModel)this.empTbl.getModel();
+                //model.setRowCount(0);
+            }
+            
+            //model = (DefaultTableModel)this.empTbl.getModel();
+            
+            while(rs.next()){
+                //model.addRow( new Object[] {rs.getString("Cedula"),
+                //  rs.getString("Nombres"),
+                // rs.getString("Apellidos"), rs.getInt("Edad"),
+                // rs.getString("Direccion"),rs.getString("Cargo"),
+                //rs.getString("Horario") });
+                this.crgCombo.addItem(rs.getString(1));
+            }
+            //this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void GetDataHorario(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NEmpleado().MostrarHorariosNombres();
+            if(this.horCombo.getItemCount()==2){
+                //model = (DefaultTableModel)this.empTbl.getModel();
+                //model.setRowCount(0);
+            }
+            
+            //model = (DefaultTableModel)this.empTbl.getModel();
+            
+            while(rs.next()){
+                //model.addRow( new Object[] {rs.getString("Cedula"),
+                //  rs.getString("Nombres"),
+                // rs.getString("Apellidos"), rs.getInt("Edad"),
+                // rs.getString("Direccion"),rs.getString("Cargo"),
+                //rs.getString("Horario") });
+                this.horCombo.addItem(rs.getString(1));
+            }
+            //this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     
     public void PushData(){
         try{
@@ -681,4 +770,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nomTxt;
     // End of variables declaration//GEN-END:variables
+    
+    
+    
 }

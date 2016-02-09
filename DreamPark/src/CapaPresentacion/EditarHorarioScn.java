@@ -5,11 +5,23 @@
  */
 package CapaPresentacion;
 
+import CapaNegocios.NEmpleado;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +34,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
      */
     public EditarHorarioScn() {
         initComponents();
+        GetData();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
@@ -29,6 +42,8 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
         this.inSpn.setEnabled(false);
         this.fnSpn.setEnabled(false);
+        //this.inSpn.setValue("00:00:00");
+        //this.fnSpn.setValue("00:00:00");
     }
 
     /**
@@ -102,26 +117,30 @@ public class EditarHorarioScn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "Nombre", "Hora Inicio", "Hora Fin"
+                "Nombre", "Hora Inicio", "Hora Fin"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        horTbl.setEnabled(false);
+        horTbl.setFocusable(false);
+        horTbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        horTbl.getTableHeader().setReorderingAllowed(false);
+        horTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                horTblMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(horTbl);
         if (horTbl.getColumnModel().getColumnCount() > 0) {
-            horTbl.getColumnModel().getColumn(0).setMinWidth(0);
-            horTbl.getColumnModel().getColumn(0).setPreferredWidth(0);
-            horTbl.getColumnModel().getColumn(0).setMaxWidth(0);
+            horTbl.getColumnModel().getColumn(0).setResizable(false);
             horTbl.getColumnModel().getColumn(1).setResizable(false);
             horTbl.getColumnModel().getColumn(2).setResizable(false);
-            horTbl.getColumnModel().getColumn(3).setResizable(false);
         }
 
         CrearBtn.setText("CREAR");
@@ -146,9 +165,19 @@ public class EditarHorarioScn extends javax.swing.JFrame {
 
         JSpinner.DateEditor de1 = new JSpinner.DateEditor(inSpn, "HH:mm:ss");
         inSpn.setEditor(de1);
+        inSpn.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                inSpnStateChanged(evt);
+            }
+        });
 
         JSpinner.DateEditor de2 = new JSpinner.DateEditor(fnSpn, "HH:mm:ss");
         fnSpn.setEditor(de2);
+        fnSpn.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                fnSpnStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,7 +299,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
-        //DeleteData();
+        DeleteData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
@@ -278,7 +307,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
     }//GEN-LAST:event_ElimBtnActionPerformed
 
     private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
-        //PushData();
+        PushData();
         this.NomTxt.enable(false);
         this.horTbl.enable(false);
         this.inSpn.setEnabled(false);
@@ -301,8 +330,8 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.CrearBtn.setVisible(false);
         this.CancelBtn.setVisible(true);
         this.NomTxt.setText("");
-        this.inSpn.setValue("00:00:00");
-        this.fnSpn.setValue("00:00:00");
+        //this.inSpn.setValue("00:00:00");
+        //this.fnSpn.setValue("00:00:00");
     }//GEN-LAST:event_CrearBtnActionPerformed
 
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
@@ -318,12 +347,49 @@ public class EditarHorarioScn extends javax.swing.JFrame {
 
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
-        //SaveData();
+        SaveData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
     }//GEN-LAST:event_SaveBtnActionPerformed
+
+    private void inSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_inSpnStateChanged
+        
+        this.inSpn.setToolTipText("Changed");
+        
+        
+    }//GEN-LAST:event_inSpnStateChanged
+
+    private void fnSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_fnSpnStateChanged
+        this.fnSpn.setToolTipText("Changed");
+    }//GEN-LAST:event_fnSpnStateChanged
+
+    private void horTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_horTblMouseClicked
+        // TODO add your handling code here:
+        this.CrearBtn.setVisible(false);
+        this.EditBtn.setVisible(true);
+        this.ElimBtn.setVisible(true);
+        this.CancelBtn.setVisible(true);
+        int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
+        this.NomTxt.setText((String)this.horTbl.getModel().getValueAt(index, 0)); 
+        //String timeIn = new SimpleDateFormat("HH:mm:ss").format((String)this.horTbl.getModel().getValueAt(index, 1));
+        //String timeFn= new SimpleDateFormat("HH:mm:ss").format((String)this.horTbl.getModel().getValueAt(index, 2));
+        //SpinnerDateModel  
+        SimpleDateFormat fm = new SimpleDateFormat("HH:mm:ss");
+        
+        try {
+            this.inSpn.setValue(fm.parseObject((String)this.horTbl.getModel().getValueAt(index, 1)));
+            this.fnSpn.setValue(fm.parseObject((String)this.horTbl.getModel().getValueAt(index, 2)));
+
+        } catch (ParseException ex) {
+            Logger.getLogger(EditarHorarioScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //this.DirTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 2));
+        //this.TelfTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 3)); 
+    
+    }//GEN-LAST:event_horTblMouseClicked
 
     /**
      * @param args the command line arguments
@@ -358,6 +424,136 @@ public class EditarHorarioScn extends javax.swing.JFrame {
                 new EditarHorarioScn().setVisible(true);
             }
         });
+    }
+    
+    public void GetData(){
+         ResultSet rs = null;
+        DefaultTableModel model=null;
+       
+        try {
+            
+            rs = new NEmpleado().MostrarHorarios();
+            if(this.horTbl.getRowCount()!=0){
+                 model = (DefaultTableModel)this.horTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.horTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getString("Nombre"), 
+                    rs.getString("Inicio"),rs.getString("Fin")});
+            }
+            this.horTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void PushData(){
+        Date date = new Date();
+        SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+        try{
+            String rpta="";
+            if((this.inSpn.getToolTipText().equals(""))||
+                    (this.NomTxt.getText().equals(""))||
+                    (this.fnSpn.getToolTipText().equals(""))){
+                if(this.NomTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Nombre. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+
+                }
+                if(this.inSpn.getToolTipText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo de hora de inicio. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+
+                }
+                if(this.fnSpn.getToolTipText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo de hora Final. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+
+                }
+                
+            }
+           else{
+                String timeIn= new SimpleDateFormat("HH:mm").format(this.inSpn.getValue())+":00";
+                String timeFn= new SimpleDateFormat("HH:mm").format(this.fnSpn.getValue())+":00";
+                
+                rpta = NEmpleado.InsertarHorario(this.NomTxt.getText(), timeIn,timeFn);
+                if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
+                    this.NomTxt.setText("");
+                    //this.inSpn.setValue(date);
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                    this.NomTxt.enable(true);
+                    this.inSpn.enable(true);
+                    this.fnSpn.enable(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+                
+                
+            }
+            
+        }
+        catch(Exception e){
+                   JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+
+        }
+        GetData();
+    }
+    
+    public void SaveData(){
+        int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
+        String timeIn= new SimpleDateFormat("h:mm a").format(this.inSpn.getValue())+":00";
+        String timeFn= new SimpleDateFormat("h:mm a").format(this.fnSpn.getValue())+":00";
+                
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NEmpleado.EditarHorario(this.NomTxt.getText(), timeIn, timeFn);
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.NomTxt.setText("");
+                    this.NomTxt.enable(false);
+                    this.inSpn.enable(false);
+                    this.fnSpn.enable(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetData();
+    }
+    
+    public void DeleteData(){
+        int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NEmpleado.EliminarHorario(this.NomTxt.getText());
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
+                    this.NomTxt.setText("");
+                    
+                    this.NomTxt.enable(false);
+                    this.inSpn.enable(false);
+                    this.fnSpn.enable(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetData();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

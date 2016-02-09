@@ -5,6 +5,16 @@
 */
 package CapaPresentacion;
 
+import CapaNegocios.NEmpleado;
+import CapaNegocios.NProveedor;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jfpal
@@ -186,10 +196,11 @@ public class EditarCargoScn extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CrearBtn)
-                    .addComponent(IngBtn)
-                    .addComponent(SaveBtn))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(IngBtn, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CrearBtn)
+                        .addComponent(SaveBtn)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EditBtn)
@@ -202,7 +213,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
                             
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
-        //DeleteData();
+        DeleteData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
@@ -244,7 +255,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
     
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
-        //SaveData();
+        SaveData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
@@ -277,7 +288,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
     }//GEN-LAST:event_CrearBtnActionPerformed
     
     private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
-        //PushData();
+        PushData();
         this.NomTxt.enable(false);
         this.descTxt.enable(false);
         this.crgTbl.enable(false);
@@ -324,6 +335,121 @@ public class EditarCargoScn extends javax.swing.JFrame {
                 new EditarCargoScn().setVisible(true);
             }
         });
+    }
+    
+    public void GetData(){
+         ResultSet rs = null;
+        DefaultTableModel model=null;
+       
+        try {
+            
+            rs = new NEmpleado().MostrarCargos();
+            if(this.crgTbl.getRowCount()!=0){
+                 model = (DefaultTableModel)this.crgTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.crgTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getString("Nombre"), 
+                    rs.getString("Descripcion")});
+            }
+            this.crgTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void PushData(){
+        try{
+            String rpta="";
+            if((this.NomTxt.getText().equals(""))||
+                    (this.descTxt.getText().equals(""))){
+                if(this.NomTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Nombre. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+
+                }
+                if(this.descTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Descripcion. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+
+                }
+                
+            }
+           else{
+                rpta = NEmpleado.InsertarCargo(this.NomTxt.getText(), this.descTxt.getText());
+                if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
+                    this.NomTxt.setText("");
+                    this.descTxt.setText("");
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                    this.NomTxt.enable(true);
+                    this.descTxt.enable(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+                
+                
+            }
+            
+        }
+        catch(Exception e){
+                   JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+
+        }
+        GetData();
+    }
+    
+    public void SaveData(){
+        int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NEmpleado.InsertarCargo(this.NomTxt.getText(), this.descTxt.getText());
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.NomTxt.setText("");
+                    this.descTxt.setText("");
+                    this.NomTxt.enable(false);
+                    this.descTxt.enable(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetData();
+    }
+    
+    public void DeleteData(){
+        int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
+        String rpta="";
+        try {
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta = NEmpleado.EliminarCargo(this.NomTxt.getText());
+            if (rpta.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
+                    this.NomTxt.setText("");
+                    this.descTxt.setText("");
+                    this.NomTxt.enable(false);
+                    this.descTxt.enable(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetData();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
