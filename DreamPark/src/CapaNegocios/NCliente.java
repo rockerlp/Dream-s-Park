@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author jfpal
+ * @author lhtc9
  */
 public class NCliente extends NPersona{
 
