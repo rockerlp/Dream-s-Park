@@ -15,7 +15,10 @@ delimiter ;
 
 delimiter |
 create view Mostrar_Empleado as
-	select p.CI_RUC,p.nombres,p.apellidos,p.fechaNacimiento,p.direccion,e.Cargo_idCargo,e.Horario_idHorario from Persona p join Empleado e on p.idPersona=e.Persona_idPersona;
+	select p.CI_RUC as Cedula,p.nombres as Nombres,p.apellidos as Apellidos, timestampdiff(year, p.fechaNacimiento,curdate()) as Edad,p.direccion as Direccion,c.Nombre as Cargo,h.Nombre as Horario
+	from Persona p,Empleado e,Cargo c,Horario h 
+	where p.idPersona=e.Persona_idPersona and
+	e.Cargo_idCargo=c.idCargo and e.Horario_idHorario=h.idHorario;
 
 |
 delimiter ;

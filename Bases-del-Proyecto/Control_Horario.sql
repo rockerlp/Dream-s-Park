@@ -11,7 +11,21 @@ delimiter ;
 
 delimiter |
 create view Mostrar_Horario as
-	select * from Horario;
+	select Nombre as Nombre,Hora_Inicio as Inicio,Hora_FIn as Fin from Horario;
+
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Horario_Nombre as
+	select Nombre from Horario;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Mostrar_Horario_H(in nom varchar(45))
+	select Hora_Inicio as Inicio,Hora_FIn as Fin from Horario where Nombre=nom;
 
 |
 delimiter ;
@@ -30,6 +44,16 @@ create procedure Borrar_Horario(in idh int)
 begin 
 	
 	delete from Horario where idHorario=idh;
+	
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Borrar_Horario_Nombre(in nom varchar(45))
+begin 
+	
+	delete from Horario where Nombre=nom;
 	
 end
 |
