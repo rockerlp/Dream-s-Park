@@ -72,7 +72,357 @@ public class DEmpleado extends DPersona{
         return rs;
     }
     
+    public ResultSet MostrarNombresHorarios() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Horario_Nombre";
+        try{            
+            rs = st.executeQuery(query);           
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }        
+        return rs;
+    }
+    public String[] MostrarHorHorario(String Nombre) throws SQLException{
+        String[] h={"",""};
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Mostrar_Horario_H(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setString(1, Nombre);
+          
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               //resp = "OK";
+               h[0]=rs.getString(1);
+               h[1]=rs.getString(2);
+               return h;
+           }
+           else{
+               resp="No se obtuvieron datos...";
+           }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),"No se ha podido realizar la busqueda","Error",JOptionPane.ERROR_MESSAGE);
+
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return null;
+    }
     
+    public String MostrarDescCargo(String Nombre) throws SQLException{
+        String h="";
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Mostrar_Cargo_Desc(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setString(1, Nombre);
+          
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               //resp = "OK";
+               h=rs.getString(1);
+               return h;
+           }
+           else{
+               resp="No se obtuvieron datos...";
+           }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),"No se ha podido realizar la busqueda","Error",JOptionPane.ERROR_MESSAGE);
+
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return null;
+    }
+        
+    public ResultSet MostrarNombresCargos() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Cargo_Nombres";
+        try{            
+            rs = st.executeQuery(query);           
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }        
+        return rs;
+    }
+    
+    public ResultSet MostrarHorarios() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Horario";
+        try{            
+            rs = st.executeQuery(query);           
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }        
+        return rs;
+    }
+    
+    public ResultSet MostrarCargos() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Cargo";
+        try{            
+            rs = st.executeQuery(query);           
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }        
+        return rs;
+    }
+    
+    public String InsertarCargo(String nom,String desc) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call insertar_Cargo(?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setString(1, nom);
+           calStat.setString(2, desc);
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Ingreso al Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    
+    public String EditarCargo(String nom,String desc) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Editar_Cargo(?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, buscar_Cargo_Nombre(nom));
+           calStat.setString(2, nom);
+           calStat.setString(3, desc);
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Edito Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    
+    public String EliminarCargo(String nom) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Borrar_Cargo(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, buscar_Cargo_Nombre(nom));
+           
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Elimo el Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    
+    public String InsertarHorario(String nom,String hIn,String hFn) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call insertar_Horario(?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setString(1, nom);
+           calStat.setString(2, hIn);
+           calStat.setString(3, hFn);
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Ingreso al Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    
+    public String EditarHorario(String nom,String hIn,String hFn) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Editar_Horario(?,?,?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, buscar_Horario_Nombre(nom));
+           calStat.setString(2, nom);
+           calStat.setString(3, hIn);
+           calStat.setString(4, hFn);
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Edito Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
+    
+    public String EliminarHorario(String nom) throws SQLException{
+        Connection con = new Conexion().getCon();        
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Borrar_Horario(?)}";        
+        try{            
+           calStat = con.prepareCall(query);
+           calStat.setInt(1, buscar_Horario_Nombre(nom));
+           
+           rs=calStat.executeQuery();          
+        
+           if(rs!=null){
+               resp = "OK";
+           }
+           else{
+               resp="No se Elimo el Registro...";
+           }
+            
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }            
+        }
+        return  resp;
+    }
     
     private int getResultSetSize(ResultSet rs) throws SQLException{
         int i=0;
