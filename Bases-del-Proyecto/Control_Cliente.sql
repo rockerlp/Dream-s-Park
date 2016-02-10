@@ -15,10 +15,26 @@ delimiter ;
 
 delimiter |
 create view Mostrar_Cliente as
-	select p.CI_RUC,p.nombres,p.apellidos,p.fechaNacimiento,p.direccion,c.idCliente from Persona p join Cliente c on p.idPersona=c.Persona_idPersona;
+	select c.idCliente, p.CI_RUC,p.nombres,p.apellidos from Persona p join Cliente c on p.idPersona=c.Persona_idPersona;
 
 |
 delimiter ;
+
+delimiter |
+create view Mostrar_Cliente_NA as
+	select p.nombres,p.apellidos from Persona p join Cliente c on p.idPersona=c.Persona_idPersona;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Cliente_Nombre(in nom varchar(25),in ape varchar(25))
+begin 
+	select c.idCliente from Cliente c, Persona p where p.nombres=nom and p.apellidos=ape and p.idPersona=c.Persona_idPersona;
+end
+|
+delimiter ;
+
 
 delimiter |
 create procedure Editar_Cliente(in idPers int,in CR varchar(13),in nom varchar(25),in ape varchar(25),in fnac date, in dir varchar(35))

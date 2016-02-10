@@ -583,18 +583,13 @@ public class EmpleadoScn extends javax.swing.JFrame {
             
             rs = new NEmpleado().MostrarHorariosNombres();
             if(this.horCombo.getItemCount()==2){
-                //model = (DefaultTableModel)this.empTbl.getModel();
-                //model.setRowCount(0);
+                
             }
             
-            //model = (DefaultTableModel)this.empTbl.getModel();
+            
             
             while(rs.next()){
-                //model.addRow( new Object[] {rs.getString("Cedula"),
-                //  rs.getString("Nombres"),
-                // rs.getString("Apellidos"), rs.getInt("Edad"),
-                // rs.getString("Direccion"),rs.getString("Cargo"),
-                //rs.getString("Horario") });
+                
                 this.horCombo.addItem(rs.getString(1));
             }
             //this.empTbl.setModel(model);
@@ -671,7 +666,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
             
         }
-        //GetData();
+        GetData();
     }
     
     /**

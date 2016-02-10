@@ -1,23 +1,45 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package CapaPresentacion;
+
+import CapaNegocios.NEvento;
+import CapaNegocios.NProveedor;
+import CapaNegocios.NReservacion;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author jfpal
  */
 public class RsrvScn extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form RsrvScn
      */
     public RsrvScn() {
         initComponents();
+        this.IngBtn.setVisible(false);
+        this.SaveBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.EditBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        //String dat =this.fchDate.getDateFormatString();
+        this.agrBtn.setVisible(false);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,22 +49,561 @@ public class RsrvScn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        fchDate = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        rsrTbl = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        fltrCmb = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        descTxt = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        prcTxt = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        teCmb = new javax.swing.JComboBox();
+        CltCmb = new javax.swing.JComboBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        itmTbl = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        agrBtn = new javax.swing.JButton();
+        EditBtn = new javax.swing.JButton();
+        SaveBtn = new javax.swing.JButton();
+        ElimBtn = new javax.swing.JButton();
+        CancelBtn = new javax.swing.JButton();
+        CrearBtn = new javax.swing.JButton();
+        IngBtn = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        salTxt = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        npTxt = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        temCmb = new javax.swing.JComboBox();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        fchDate.setEnabled(false);
+
+        jLabel1.setText("RESERVACIONES");
+
+        rsrTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha", "Cliente", "Descripcion", "Costo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(rsrTbl);
+        if (rsrTbl.getColumnModel().getColumnCount() > 0) {
+            rsrTbl.getColumnModel().getColumn(0).setResizable(false);
+            rsrTbl.getColumnModel().getColumn(1).setResizable(false);
+            rsrTbl.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jLabel2.setText("Fecha");
+
+        fltrCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Activos", "Completados", "Cancelados" }));
+        fltrCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fltrCmbActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Filtrar");
+
+        jLabel4.setText("Descripcion");
+
+        jScrollPane2.setEnabled(false);
+
+        descTxt.setColumns(20);
+        descTxt.setRows(5);
+        descTxt.setEnabled(false);
+        jScrollPane2.setViewportView(descTxt);
+
+        jLabel5.setText("Precio");
+
+        prcTxt.setEnabled(false);
+
+        jLabel6.setText("Cliente");
+
+        jLabel7.setText("Tipo de Evento");
+
+        teCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
+        teCmb.setEnabled(false);
+        teCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teCmbActionPerformed(evt);
+            }
+        });
+
+        CltCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
+        CltCmb.setEnabled(false);
+        CltCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CltCmbActionPerformed(evt);
+            }
+        });
+
+        itmTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Item", "Descripcion", "Tipo", "Cantidad"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(itmTbl);
+        if (itmTbl.getColumnModel().getColumnCount() > 0) {
+            itmTbl.getColumnModel().getColumn(0).setResizable(false);
+            itmTbl.getColumnModel().getColumn(1).setResizable(false);
+            itmTbl.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jLabel8.setText("Items");
+
+        agrBtn.setText("Agregar");
+
+        EditBtn.setText("EDITAR");
+        EditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditBtnActionPerformed(evt);
+            }
+        });
+
+        SaveBtn.setText("GUARDAR");
+        SaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveBtnActionPerformed(evt);
+            }
+        });
+
+        ElimBtn.setText("ELIMINAR");
+        ElimBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ElimBtnActionPerformed(evt);
+            }
+        });
+
+        CancelBtn.setText("CANCELAR");
+        CancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelBtnActionPerformed(evt);
+            }
+        });
+
+        CrearBtn.setText("CREAR");
+        CrearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearBtnActionPerformed(evt);
+            }
+        });
+
+        IngBtn.setText("INGRESAR");
+        IngBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IngBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Salon");
+
+        salTxt.setEnabled(false);
+
+        jLabel10.setText("Numero de personas:");
+
+        npTxt.setEnabled(false);
+
+        jLabel11.setText("Tematica");
+
+        temCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
+        temCmb.setEnabled(false);
+        temCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                temCmbActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 998, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fltrCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addGap(280, 280, 280))
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(fchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(npTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel9)
+                                            .addGap(54, 54, 54)
+                                            .addComponent(salTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(prcTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(agrBtn))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(CrearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(29, 29, 29)
+                                                    .addComponent(SaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(IngBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(EditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(ElimBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(CancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel7)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(teCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel11)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(temCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jLabel6)
+                                                    .addGap(103, 103, 103)
+                                                    .addComponent(CltCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(288, 288, 288)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 703, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(fchDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(prcTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(salTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(npTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fltrCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(CltCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(teCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(temCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(agrBtn, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IngBtn)
+                            .addComponent(CrearBtn)
+                            .addComponent(SaveBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CancelBtn)
+                            .addComponent(ElimBtn)
+                            .addComponent(EditBtn))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
+        // TODO add your handling code here:
+        this.fchDate.enable(true);
+        this.descTxt.enable(true);
+        this.prcTxt.enable(true);
+        this.salTxt.enable(true);
+        this.npTxt.enable(true);
+        this.CltCmb.enable(true);
+        this.teCmb.enable(true);
+        this.temCmb.enable(true);
+        this.agrBtn.setVisible(true);
+        this.itmTbl.enable(true);
+        this.SaveBtn.setVisible(true);
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        
+    }//GEN-LAST:event_EditBtnActionPerformed
+    
+    private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
+        // TODO add your handling code here:
+        SaveData();
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.CrearBtn.setVisible(true);
+        
+    }//GEN-LAST:event_SaveBtnActionPerformed
+    
+    private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
+        //DeleteData();
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.CrearBtn.setVisible(true);
+        
+    }//GEN-LAST:event_ElimBtnActionPerformed
+    
+    private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
+        // TODO add your handling code here:
+        boolean flag=true;
+        if(this.IngBtn.isVisible()&&!this.CrearBtn.isVisible()&&!this.EditBtn.isVisible()&&!this.ElimBtn.isVisible()){
+            this.CrearBtn.setVisible(true);
+            this.IngBtn.setVisible(false);
+            this.CancelBtn.setVisible(false);
+            this.fchDate.enable(false);
+            this.descTxt.enable(false);
+            this.prcTxt.enable(false);
+            this.salTxt.enable(false);
+            this.npTxt.enable(false);
+            this.CltCmb.enable(false);
+            this.teCmb.enable(false);
+            this.temCmb.enable(false);
+            this.agrBtn.setVisible(false);
+            this.itmTbl.enable(false);
+        }
+        if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
+            this.EditBtn.setVisible(true);
+            this.ElimBtn.setVisible(true);
+            
+            this.fchDate.enable(false);
+            this.descTxt.enable(false);
+            this.prcTxt.enable(false);
+            this.salTxt.enable(false);
+            this.npTxt.enable(false);
+            this.CltCmb.enable(false);
+            this.teCmb.enable(false);
+            this.temCmb.enable(false);
+            this.agrBtn.setVisible(false);
+            this.itmTbl.enable(false);
+            this.SaveBtn.setVisible(false);
+            flag=false;
+        }
+        if(this.EditBtn.isVisible()&&this.ElimBtn.isVisible()&&!this.SaveBtn.isVisible()&&flag){
+            this.EditBtn.setVisible(false);
+            this.ElimBtn.setVisible(false);
+            this.CrearBtn.setVisible(true);
+            this.CancelBtn.setVisible(false);
+            this.fchDate.setDateFormatString("");
+            this.descTxt.setText("");
+            this.prcTxt.setText("");
+            this.salTxt.setText("");
+            this.npTxt.setText("");
+            this.CltCmb.setSelectedIndex(0);
+            this.teCmb.setSelectedIndex(0);
+            this.temCmb.setSelectedIndex(0);
+            this.agrBtn.setVisible(false);
+            DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+            model.setRowCount(0);
+            this.itmTbl.setModel(model);
+        }
+    }//GEN-LAST:event_CancelBtnActionPerformed
+    
+    private void CrearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBtnActionPerformed
+        
+        this.IngBtn.setVisible(true);
+        this.fchDate.setEnabled(true);
+        this.descTxt.enable(true);
+        this.prcTxt.enable(true);
+        this.salTxt.enable(true);
+        this.npTxt.enable(true);
+        this.CltCmb.enable(true);
+        this.teCmb.enable(true);
+        this.temCmb.enable(true);
+        this.agrBtn.setVisible(true);
+        this.itmTbl.enable(true);
+        this.CrearBtn.setVisible(false);
+        this.CancelBtn.setVisible(true);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.descTxt.setText("");
+        this.prcTxt.setText("");
+        this.salTxt.setText("");
+        this.npTxt.setText("");
+        this.CltCmb.setSelectedIndex(0);
+        this.teCmb.setSelectedIndex(0);
+        this.temCmb.setSelectedIndex(0);
+        DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+        model.setRowCount(0);
+        this.itmTbl.setModel(model);
+    }//GEN-LAST:event_CrearBtnActionPerformed
+    
+    private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
+        PushData();
+        this.fchDate.enable(false);
+        this.descTxt.enable(false);
+        this.prcTxt.enable(false);
+        this.salTxt.enable(false);
+        this.npTxt.enable(false);
+        this.CltCmb.enable(false);
+        this.teCmb.enable(false);
+        this.temCmb.enable(false);
+        this.agrBtn.setVisible(false);
+        this.itmTbl.enable(false);
+        if(this.CrearBtn.isEnabled()){
+            this.CancelBtn.setVisible(false);
+        }
+        else{
+            this.CancelBtn.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_IngBtnActionPerformed
+    
+    private void CltCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CltCmbActionPerformed
+        // TODO add your handling code here:
+        
+        this.CltCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    CltScn clt = new CltScn();
+                    clt.setVisible(true);
+                }
+            }
+        });
+    }//GEN-LAST:event_CltCmbActionPerformed
+    
+    private void teCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teCmbActionPerformed
+        // TODO add your handling code here:
+        this.teCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    TipoScn tscn = new TipoScn();
+                    tscn.setVisible(true);
+                }
+            }
+        });
+    }//GEN-LAST:event_teCmbActionPerformed
+    
+    private void temCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temCmbActionPerformed
+        // TODO add your handling code here:
+        
+        this.temCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    TematicaScn tmscn = new TematicaScn();
+                    tmscn.setVisible(true);
+                }
+            }
+        });
+    }//GEN-LAST:event_temCmbActionPerformed
+    
+    private void fltrCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fltrCmbActionPerformed
+        // TODO add your handling code here:
+        
+        this.fltrCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("Activos")){
+                    GetDataActivos();
+                }
+                if(selectedBook.equals("Completados")){
+                    GetDataCompletados();
+                }
+                if(selectedBook.equals("Cancelados")){
+                    GetDataCancelados();
+                }
+            }
+        });
+    }//GEN-LAST:event_fltrCmbActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -50,8 +611,8 @@ public class RsrvScn extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -69,7 +630,7 @@ public class RsrvScn extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(RsrvScn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -77,7 +638,391 @@ public class RsrvScn extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    public void PushData(){
+        try{
+            String rpta="";
+            String rpta2="";
+            
+            
+            
+            if((this.descTxt.getText().equals(""))||
+                    (this.prcTxt.getText().equals(""))||
+                    (this.salTxt.getText().equals(""))||
+                    (this.npTxt.getText().equals(""))||
+                    ((this.CltCmb.getSelectedIndex()==0)&&(this.CltCmb.getSelectedIndex()==1))||
+                    ((this.teCmb.getSelectedIndex()==0)&&(this.teCmb.getSelectedIndex()==1))||
+                    ((this.temCmb.getSelectedIndex()==0)&&(this.temCmb.getSelectedIndex()==1))||(this.fchDate.getCalendar() == null)){
+                if(this.descTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Descripcion. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if(this.prcTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo precio. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if(this.salTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Salon. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if(this.npTxt.getText().equals("")){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Numero de personas. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if((this.CltCmb.getSelectedIndex()==0)&&(this.CltCmb.getSelectedIndex()==1)){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha seleccionado un cliente. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if((this.teCmb.getSelectedIndex()==0)&&(this.teCmb.getSelectedIndex()==1)){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha seleccionado tipo de evento. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+                if((this.temCmb.getSelectedIndex()==0)&&(this.temCmb.getSelectedIndex()==1)){
+                    JOptionPane.showMessageDialog(new JFrame(),"No ha selccionado tematica. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
+                    
+                }
+            }
+            else{
+                int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+                int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+                int idEstE = NEvento.BuscarEstadoNombre("Activado");
+                int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
+                        this.descTxt.getText(),this.salTxt.getText(),
+                        Integer.parseInt(this.npTxt.getText()),
+                        Double.parseDouble(this.prcTxt.getText()));
+                String Clt=this.CltCmb.getSelectedItem().toString();
+                String[] split=Clt.split(" ");
+                int idC = NReservacion.BuscarCliente(split[0], split[1]);
+                int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
+                
+                rpta2=NEvento.insertar(this.fchDate.getDate().toString(),
+                        this.salTxt.getText(),
+                        Integer.parseInt(this.npTxt.getText()),
+                        this.descTxt.getText() ,
+                        Double.parseDouble(this.prcTxt.toString()),
+                        idTem, idTip, idEstE);
+                rpta = NReservacion.insertar(this.fchDate.getDate().toString(),
+                        this.descTxt.toString(),
+                        Double.parseDouble(this.prcTxt.toString()), idEv,
+                        idC, idEstR);
+                if (rpta.equals("OK")&&rpta2.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
+                    this.fchDate.setDateFormatString("yyyy-MM-dd");
+                    this.descTxt.setText("");
+                    this.prcTxt.setText("");
+                    this.salTxt.setText("");
+                    this.npTxt.setText("");
+                    this.CltCmb.setSelectedIndex(0);
+                    this.teCmb.setSelectedIndex(0);
+                    this.temCmb.setSelectedIndex(0);
+                    DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                    model.setRowCount(0);
+                    this.itmTbl.setModel(model);
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+                    
+                }
+                
+                
+            }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+            
+        }
+        GetDataActivos();
+    }
+    
+    public void SaveData(){
+        int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
+        String rpta="";
+        String rpta2="";
+        try {
+            int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+            int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+            int idEstE = NEvento.BuscarEstadoNombre("Activado");
+            int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
+                    this.descTxt.getText(),this.salTxt.getText(),
+                    Integer.parseInt(this.npTxt.getText()),
+                    Double.parseDouble(this.prcTxt.getText()));
+            String Clt=this.CltCmb.getSelectedItem().toString();
+            String[] split=Clt.split(" ");
+            int idC = NReservacion.BuscarCliente(split[0], split[1]);
+            int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta2=NEvento.Editar(idEv,this.fchDate.getDate().toString(),
+                    this.salTxt.getText(),
+                    Integer.parseInt(this.npTxt.getText()),
+                    this.descTxt.getText() ,
+                    Double.parseDouble(this.prcTxt.toString()),
+                    idTem, idTip, idEstE);
+            rpta = NReservacion.Editar(Integer.parseInt(this.rsrTbl.getModel().getValueAt(index, 0).toString())
+                    ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
+                    idEv,idC,idEstR );
+            if (rpta.equals("OK")&&rpta2.equals("OK")){
+                JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                this.fchDate.setDateFormatString("yyyy-MM-dd");
+                this.descTxt.setText("");
+                this.prcTxt.setText("");
+                this.salTxt.setText("");
+                this.npTxt.setText("");
+                this.CltCmb.setSelectedIndex(0);
+                this.teCmb.setSelectedIndex(0);
+                this.temCmb.setSelectedIndex(0);
+                DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                model.setRowCount(0);
+                this.itmTbl.setModel(model);
+                this.CrearBtn.setVisible(true);
+                this.IngBtn.setVisible(false);
+                this.EditBtn.setVisible(true);
+                this.ElimBtn.setVisible(true);
+                this.SaveBtn.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetDataActivos();
+    }
+    
+    public void GetDataActivos(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarActivos();
+            if(this.rsrTbl.getRowCount()!=0){
+                model = (DefaultTableModel)this.rsrTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.rsrTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getInt("fecha"),
+                    rs.getString("nombres")+" "+rs.getString("apellidos"),
+                    rs.getString("descripcion"),rs.getDouble("precio") });
+            }
+            this.rsrTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void GetDataCompletados(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarCompletados();
+            if(this.rsrTbl.getRowCount()!=0){
+                model = (DefaultTableModel)this.rsrTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.rsrTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getInt("fecha"),
+                    rs.getString("nombres")+" "+rs.getString("apellidos"),
+                    rs.getString("descripcion"),rs.getDouble("precio") });
+            }
+            this.rsrTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void GetDataCancelados(){
+        ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarCancelados();
+            if(this.rsrTbl.getRowCount()!=0){
+                model = (DefaultTableModel)this.rsrTbl.getModel();
+                model.setRowCount(0);
+            }
+            
+            model = (DefaultTableModel)this.rsrTbl.getModel();
+            
+            while(rs.next()){
+                model.addRow( new Object[] {rs.getInt("fecha"),
+                    rs.getString("nombres")+" "+rs.getString("apellidos"),
+                    rs.getString("descripcion"),rs.getDouble("precio") });
+            }
+            this.rsrTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void DeleteData(){
+        int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
+        String rpta="";
+        String rpta2="";
+        try {
+            int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+            int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+            int idEstE = NEvento.BuscarEstadoNombre("Activado");
+            int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
+                    this.descTxt.getText(),this.salTxt.getText(),
+                    Integer.parseInt(this.npTxt.getText()),
+                    Double.parseDouble(this.prcTxt.getText()));
+            String Clt=this.CltCmb.getSelectedItem().toString();
+            String[] split=Clt.split(" ");
+            int idC = NReservacion.BuscarCliente(split[0], split[1]);
+            int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
+            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
+            rpta2=NEvento.Eliminar(idEv,this.fchDate.getDate().toString(),
+                    this.salTxt.getText(),
+                    Integer.parseInt(this.npTxt.getText()),
+                    this.descTxt.getText() ,
+                    Double.parseDouble(this.prcTxt.toString()),
+                    idTem, idTip, idEstE);
+            rpta = NReservacion.Eliminar(Integer.parseInt(this.rsrTbl.getModel().getValueAt(index, 0).toString())
+                    ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
+                    idEv,idC,idEstR );
+             if (rpta.equals("OK")&&rpta2.equals("OK")){
+                JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                this.fchDate.setDateFormatString("yyyy-MM-dd");
+                this.descTxt.setText("");
+                this.prcTxt.setText("");
+                this.salTxt.setText("");
+                this.npTxt.setText("");
+                this.CltCmb.setSelectedIndex(0);
+                this.teCmb.setSelectedIndex(0);
+                this.temCmb.setSelectedIndex(0);
+                DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                model.setRowCount(0);
+                this.itmTbl.setModel(model);
+                this.CrearBtn.setVisible(true);
+                this.IngBtn.setVisible(false);
+                this.EditBtn.setVisible(true);
+                this.ElimBtn.setVisible(true);
+                this.SaveBtn.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GetDataActivos();
+    }
+    
+    public void GetDataClientes(){
+         ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarClientes();
+            if(this.CltCmb.getItemCount()==2){
+                
+            }
+            
+            
+            
+            while(rs.next()){
+                
+                this.CltCmb.addItem(rs.getString(1));
+            }
+            //this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void GetDataTematicas(){
+         ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarTematicas();
+            if(this.temCmb.getItemCount()==2){
+                
+            }
+            
+            
+            
+            while(rs.next()){
+                
+                this.temCmb.addItem(rs.getString(1));
+            }
+            //this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void GetDataTipos(){
+         ResultSet rs = null;
+        DefaultTableModel model=null;
+        
+        try {
+            
+            rs = new NReservacion().MostrarTipos();
+            if(this.teCmb.getItemCount()==2){
+                
+            }
+            
+            
+            
+            while(rs.next()){
+                
+                this.teCmb.addItem(rs.getString(1));
+            }
+            //this.empTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CancelBtn;
+    private javax.swing.JComboBox CltCmb;
+    private javax.swing.JButton CrearBtn;
+    private javax.swing.JButton EditBtn;
+    private javax.swing.JButton ElimBtn;
+    private javax.swing.JButton IngBtn;
+    private javax.swing.JButton SaveBtn;
+    private javax.swing.JButton agrBtn;
+    private javax.swing.JTextArea descTxt;
+    private com.toedter.calendar.JDateChooser fchDate;
+    private javax.swing.JComboBox fltrCmb;
+    private javax.swing.JTable itmTbl;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField npTxt;
+    private javax.swing.JTextField prcTxt;
+    private javax.swing.JTable rsrTbl;
+    private javax.swing.JTextField salTxt;
+    private javax.swing.JComboBox teCmb;
+    private javax.swing.JComboBox temCmb;
     // End of variables declaration//GEN-END:variables
 }

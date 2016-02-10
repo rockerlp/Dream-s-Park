@@ -11,7 +11,23 @@ delimiter ;
 
 delimiter |
 create view Mostrar_Tipo_Evento as
-	select * from Tipo_Evento;
+	select nombre,descripcion from Tipo_Evento;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Tipo_Nombre(in nom varchar(20))
+begin 
+	
+	select idTipo_Evento from Tipo_Evento where Nombre=nom;
+end
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Tipo_Evento_nombre as
+	select nombre from Tipo_Evento;
 
 |
 delimiter ;

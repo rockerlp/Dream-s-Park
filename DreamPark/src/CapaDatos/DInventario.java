@@ -10,6 +10,12 @@ import java.util.LinkedList;
 /**
  *
  * @author lhtc9
+ * IdInventario` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(15) NOT NULL,
+  `cantidad` INT NOT NULL,
+  `precioCompra` DOUBLE NOT NULL,
+  `precioVenta` DOUBLE NOT NULL,
+  `Tipo_Inventario_idTipo_Inventario` INT NOT NULL,
  */
 public class DInventario {
     private int idInventario;
@@ -17,27 +23,26 @@ public class DInventario {
     private String cantidad;
     private String pCompra;
     private String pVenta;
-        
-    private String buscar;
+    private String tipoInv;        
     
     public DInventario(){        
     }
-    public DInventario(int idInventario, String nombre, String cantidad, String pCompra,String pVenta) {
+
+    public DInventario(int idInventario, String nombre, String cantidad, String pCompra, String pVenta, String tipoInv) {
         this.idInventario = idInventario;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.pCompra = pCompra;
         this.pVenta = pVenta;
+        this.tipoInv = tipoInv;
     }
     public ResultSet Mostrar() throws SQLException{
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
         String query ="select * from Inventario";
-        try{
-            
+        try{            
             rs = st.executeQuery(query);
-            //System.out.println("Records from database");                       
         }
         catch(Exception e){
             rs=null;
@@ -58,7 +63,7 @@ public class DInventario {
         ResultSet rs=null;
         int i=0;
         String resp="";
-        String query ="{call insertar_proveedor(?,?,?,?)}";
+        String query ="{call insertar_inventario(?,?,?,?,?)}";
         
         try{
             calStat = con.prepareCall(query);
@@ -66,6 +71,7 @@ public class DInventario {
             calStat.setString(2, di.getCantidad());
             calStat.setString(3, di.getpCompra());
             calStat.setString(4, di.getpVenta());
+            calStat.setString(5, di.getTipoInv());
             rs=calStat.executeQuery();
             
             if(rs!=null){
@@ -202,14 +208,12 @@ public class DInventario {
         this.pVenta = pVenta;
     }
 
-    public String getBuscar() {
-        return buscar;
+    public String getTipoInv() {
+        return tipoInv;
     }
 
-    public void setBuscar(String buscar) {
-        this.buscar = buscar;
+    public void setTipoInv(String tipoInv) {
+        this.tipoInv = tipoInv;
     }
-
-    
     
 }

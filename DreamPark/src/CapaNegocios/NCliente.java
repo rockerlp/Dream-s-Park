@@ -21,6 +21,10 @@ public class NCliente extends NPersona{
         return new DCliente().Mostrar();
     }
     
+    public ResultSet MostrarNombres() throws SQLException{
+        return new DCliente().MostrarNombres();
+    }
+    
     public static String insertar(String cedRuc, String nombre, String apellido, String fechaNaci,String direccion) throws SQLException{
         DCliente obj = new DCliente();
         obj.setCiRuc(cedRuc);

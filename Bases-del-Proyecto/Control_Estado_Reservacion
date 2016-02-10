@@ -1,5 +1,7 @@
 use ProyectoBD;
-
+call insertar_Estado_Reservacion("Activado","");
+call insertar_Estado_Reservacion("Completado","");
+call insertar_Estado_Reservacion("Cancelado","");
 
 delimiter |
 create procedure insertar_Estado_Reservacion(in nom varchar(45),in des varchar(100))
@@ -13,6 +15,21 @@ delimiter |
 create view Mostrar_Estado_Reservacion as
 	select Nombre,Descripcion from Estado_Reservacion;
 
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Estado_Reservacion_Nombre as
+	select Nombre,Descripcion from Estado_Reservacion;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Estado_Reservacion_Nombre(in nom varchar(45))
+begin 
+	select idEstado_Reservacion from Estado_Reservacion where Nombre=nom;
+end
 |
 delimiter ;
 

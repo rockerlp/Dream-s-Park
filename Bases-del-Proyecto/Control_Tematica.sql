@@ -12,9 +12,25 @@ delimiter ;
 
 
 delimiter |
-create view Mostrar_Tematica as
-	select * from Tematica;
+create view Mostrar_Tematica_Nombres as
+	select nombre from Tematica;
 
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Tematica as
+	select nombre,descripcion from Tematica;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Tematica_Nombre(in nom varchar(20))
+begin 
+	
+	select idTematica from Tematica where Nombre=nom;
+end
 |
 delimiter ;
 

@@ -61,6 +61,11 @@ public class MainScn extends javax.swing.JFrame {
         EvntBtn.setPreferredSize(new java.awt.Dimension(161, 163));
         EvntBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         EvntBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        EvntBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EvntBtnActionPerformed(evt);
+            }
+        });
 
         ClieBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/2901_-_Client_Meetup-128.png"))); // NOI18N
         ClieBtn.setText("CLIENTES");
@@ -71,6 +76,11 @@ public class MainScn extends javax.swing.JFrame {
         ClieBtn.setPreferredSize(new java.awt.Dimension(161, 163));
         ClieBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         ClieBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ClieBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClieBtnActionPerformed(evt);
+            }
+        });
 
         CompBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/045-128.png"))); // NOI18N
         CompBtn.setText("COMPRAS");
@@ -166,6 +176,8 @@ public class MainScn extends javax.swing.JFrame {
 
     private void ResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResBtnActionPerformed
         // TODO add your handling code here:
+        RsrvScn rscn = new RsrvScn();
+        rscn.setVisible(true);
     }//GEN-LAST:event_ResBtnActionPerformed
 
     private void ProvBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProvBtnActionPerformed
@@ -185,6 +197,18 @@ public class MainScn extends javax.swing.JFrame {
         EmpleadoScn eScn = new EmpleadoScn();
         eScn.setVisible(true);
     }//GEN-LAST:event_EmpBtnActionPerformed
+
+    private void EvntBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EvntBtnActionPerformed
+        // TODO add your handling code here:
+        EvntScn evnt = new EvntScn();
+        evnt.setVisible(true);
+    }//GEN-LAST:event_EvntBtnActionPerformed
+
+    private void ClieBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClieBtnActionPerformed
+        // TODO add your handling code here:
+        CltScn clt = new CltScn();
+        clt.setVisible(true);
+    }//GEN-LAST:event_ClieBtnActionPerformed
 
     /**
      * @param args the command line arguments
