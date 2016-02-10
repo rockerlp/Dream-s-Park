@@ -26,7 +26,7 @@ create view Mostrar_Reservacion_Cliente_EstadoAct  as
 	from Reservacion r,Cliente c,Estado_Reservacion er,Persona p
 	where p.idPersona=c.Persona_idPersona and r.Cliente_idCliente=c.idCliente
     and r.Estado_Reservacion_idEstado_Reservacion=er.idEstado_Reservacion
-	and er.Nombre="Activo";
+	and er.Nombre="Activado";
 
 |
 delimiter ;

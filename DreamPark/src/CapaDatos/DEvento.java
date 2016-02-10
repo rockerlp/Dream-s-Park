@@ -121,7 +121,7 @@ public class DEvento {
         return rs;
     }
     
-    public int BuscarTematicaNombre(String Nombre) throws SQLException{
+    public int BuscarTematicaNombre(String nombre) throws SQLException{
         
         Connection con = new Conexion().getCon();        
         CallableStatement calStat=null;
@@ -131,18 +131,21 @@ public class DEvento {
         String query ="{call Buscar_Tematica_Nombre(?)}";        
         try{            
            calStat = con.prepareCall(query);
-           calStat.setString(1, Nombre);
+           calStat.setString(1, nombre);
           
-           rs=calStat.executeQuery();          
+           rs=calStat.executeQuery();     
+            //JOptionPane.showMessageDialog(new JFrame(),rs.getInt(1),"Error",JOptionPane.ERROR_MESSAGE);
+
+           
         
-           if(rs!=null){
+           if(rs.next()){
                resp = "OK";
-               i=rs.getInt(1);
+               //i=rs.getInt(1);
                return rs.getInt(1);
            }
-           else{
+           /*else{
                resp="No se obtuvieron datos...";
-           }
+           }*/
             
         }
         catch(Exception e){
@@ -174,7 +177,7 @@ public class DEvento {
           
            rs=calStat.executeQuery();          
         
-           if(rs!=null){
+           if(rs.next()){
                resp = "OK";
                
                return rs.getInt(1);
@@ -213,7 +216,7 @@ public class DEvento {
           
            rs=calStat.executeQuery();          
         
-           if(rs!=null){
+           if(rs.next()){
                resp = "OK";
                
                return rs.getInt(1);

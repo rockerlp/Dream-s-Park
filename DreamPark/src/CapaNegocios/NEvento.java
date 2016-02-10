@@ -99,8 +99,8 @@ public class NEvento {
         obj.setnP(np);
         obj.setCosto(pr);
         obj.setIdTematica(idTem);
-        obj.setIdEstado(idEst);
         obj.setIdTipo_Evento(idTip);
+        obj.setIdEstado(idEst);
         
         return obj.InsertarEvento(obj);
         

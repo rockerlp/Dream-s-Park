@@ -34,8 +34,7 @@ public class EvntScn extends javax.swing.JFrame {
         this.agrBtn.setVisible(false);
         GetDataClientes();
         GetDataActivos();
-        GetDataCancelados();
-        GetDataCompletados();
+        
         GetDataTematicas();
         GetDataTipos();
         this.fchDate.setDateFormatString("yyyy-MM-dd");
@@ -534,9 +533,9 @@ public class EvntScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.evntTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("precio"),rs.getString(null) });
             }
             this.evntTbl.setModel(model);
         } catch (SQLException ex) {

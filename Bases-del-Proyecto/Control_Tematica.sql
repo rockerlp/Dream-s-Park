@@ -1,5 +1,6 @@
 use ProyectoBD;
 
+call Buscar_Tematica_Nombre("Las vegas");
 
 delimiter |
 create procedure insertar_Tematica(in nom varchar(20),in des varchar(100))

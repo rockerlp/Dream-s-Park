@@ -39,6 +39,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        GetData();
         GetDataHorario();
         GetDataCargo();
     }
@@ -66,15 +67,15 @@ public class EmpleadoScn extends javax.swing.JFrame {
         fnacTxt = new javax.swing.JTextField();
         dirTxt = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        crgCombo = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
-        horCombo = new javax.swing.JComboBox();
         CancelBtn = new javax.swing.JButton();
         ElimBtn = new javax.swing.JButton();
         EditBtn = new javax.swing.JButton();
         SaveBtn = new javax.swing.JButton();
         IngBtn = new javax.swing.JButton();
         CrearBtn = new javax.swing.JButton();
+        crgCmb = new javax.swing.JComboBox();
+        horCombo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -170,23 +171,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
 
         jLabel7.setText("Cargo:");
 
-        crgCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
-        crgCombo.setEnabled(false);
-        crgCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crgComboActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Horario:");
-
-        horCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
-        horCombo.setEnabled(false);
-        horCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                horComboActionPerformed(evt);
-            }
-        });
 
         CancelBtn.setText("CANCELAR");
         CancelBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -230,6 +215,12 @@ public class EmpleadoScn extends javax.swing.JFrame {
             }
         });
 
+        crgCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
+        crgCmb.setEnabled(false);
+
+        horCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
+        horCombo.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -254,8 +245,8 @@ public class EmpleadoScn extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(apeTxt)
-                                    .addComponent(crgCombo, 0, 191, Short.MAX_VALUE)
+                                    .addComponent(apeTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                                    .addComponent(crgCmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(horCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(122, 122, 122)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +310,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(crgCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(crgCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -376,7 +367,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
             this.ciTxt.enable(false);
             this.dirTxt.enable(false);
             this.fnacTxt.enable(false);
-            this.crgCombo.enable(false);
+            this.crgCmb.enable(false);
             this.horCombo.enable(false);
         }
         if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
@@ -388,7 +379,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
             this.ciTxt.enable(false);
             this.dirTxt.enable(false);
             this.fnacTxt.enable(false);
-            this.crgCombo.enable(false);
+            this.crgCmb.enable(false);
             this.horCombo.enable(false);
             this.SaveBtn.setVisible(false);
             flag=false;
@@ -423,7 +414,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ciTxt.enable(true);
         this.dirTxt.enable(true);
         this.fnacTxt.enable(true);
-        this.crgCombo.enable(true);
+        this.crgCmb.enable(true);
         this.horCombo.enable(true);
         this.SaveBtn.setVisible(true);
         this.EditBtn.setVisible(false);
@@ -448,7 +439,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ciTxt.enable(false);
         this.dirTxt.enable(false);
         this.fnacTxt.enable(false);
-        this.crgCombo.enable(false);
+        this.crgCmb.enable(false);
         this.horCombo.enable(false);
         if(this.CrearBtn.isEnabled()){
             this.CancelBtn.setVisible(false);
@@ -468,7 +459,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ciTxt.enable(true);
         this.dirTxt.enable(true);
         this.fnacTxt.enable(true);
-        this.crgCombo.enable(true);
+        this.crgCmb.enable(true);
         this.horCombo.enable(true);
         this.CrearBtn.setVisible(false);
         this.CancelBtn.setVisible(true);
@@ -480,46 +471,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         //this.crgCombo.setSelectedIndex(0);
         //this.horCombo.setSelectedIndex(0);
     }//GEN-LAST:event_CrearBtnActionPerformed
-    
-    private void crgComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crgComboActionPerformed
-        // TODO add your handling code here:
-        
-        this.crgCombo.addActionListener(new ActionListener() {
             
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String selectedBook = (String) combo.getSelectedItem();
-                
-                if(selectedBook.equals("<Editar>")){
-                    EditarCargoScn edC = new EditarCargoScn();
-                    edC.setVisible(true);
-                    
-                }
-            }
-        });
-        this.crgCombo.setSelectedIndex(0);
-    }//GEN-LAST:event_crgComboActionPerformed
-    
-    private void horComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horComboActionPerformed
-        // TODO add your handling code here:
-        
-        this.horCombo.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JComboBox<String> combo = (JComboBox<String>) e.getSource();
-                String selectedBook = (String) combo.getSelectedItem();
-                
-                if(selectedBook.equals("<Editar>")){
-                    EditarHorarioScn edH = new EditarHorarioScn();
-                    edH.setVisible(true);
-                }
-            }
-        });
-        this.horCombo.setSelectedIndex(0);
-    }//GEN-LAST:event_horComboActionPerformed
-    
     public void GetData(){
         ResultSet rs = null;
         DefaultTableModel model=null;
@@ -554,7 +506,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         try {
             
             rs = new NEmpleado().MostrarCargosNombres();
-            if(this.crgCombo.getItemCount()==2){
+            if(this.crgCmb.getItemCount()==2){
                 
             }
             
@@ -562,7 +514,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
             
             while(rs.next()){
                
-                this.crgCombo.addItem(rs.getString(1));
+                this.crgCmb.addItem(rs.getString(1));
             }
            
         } catch (SQLException ex) {
@@ -598,7 +550,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
     public void PushData(){
         try{
             String rpta="";
-            if((this.ciTxt.getText().equals(""))||(this.nomTxt.getText().equals(""))||(this.apeTxt.getText().equals(""))||(this.dirTxt.getText().equals(""))||(this.fnacTxt.getText().equals(""))||(this.crgCombo.getSelectedItem().equals("<Editar>"))||(this.horCombo.getSelectedItem().equals("<Editar>"))){
+            if((this.ciTxt.getText().equals(""))||(this.nomTxt.getText().equals(""))||(this.apeTxt.getText().equals(""))||(this.dirTxt.getText().equals(""))||(this.fnacTxt.getText().equals(""))||(this.crgCmb.getSelectedItem().equals("<Editar>"))||(this.horCombo.getSelectedItem().equals("<Editar>"))){
                 if(this.ciTxt.getText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Cedula/Ruc. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
                     
@@ -619,7 +571,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Fecha de Nacimiento. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
                     
                 }
-                if(this.crgCombo.getSelectedItem().equals("<Editar>")){
+                if(this.crgCmb.getSelectedItem().equals("<Editar>")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha selecccionado un cargo. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
                     
                 }
@@ -637,7 +589,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
                     this.ciTxt.setText("");
                     this.dirTxt.setText("");
                     this.fnacTxt.setText("");
-                    this.crgCombo.setSelectedIndex(0);
+                    this.crgCmb.setSelectedIndex(0);
                     this.horCombo.setSelectedIndex(0);
                     this.CrearBtn.setVisible(true);
                     this.IngBtn.setVisible(false);
@@ -646,7 +598,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
                     this.ciTxt.enable(true);
                     this.dirTxt.enable(true);
                     this.fnacTxt.enable(true);
-                    this.crgCombo.enable(true);
+                    this.crgCmb.enable(true);
                     this.horCombo.enable(true);
                 }
                 else{
@@ -706,7 +658,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         int id=0;
         try {
             
-            id = new NEmpleado().buscar_Cargo_Nombre(this.crgCombo.getSelectedItem().toString());
+            id = new NEmpleado().buscar_Cargo_Nombre(this.crgCmb.getSelectedItem().toString());
             if(id!=0){
                 return id;
             }
@@ -745,7 +697,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
     private javax.swing.JButton SaveBtn;
     private javax.swing.JTextField apeTxt;
     private javax.swing.JTextField ciTxt;
-    private javax.swing.JComboBox crgCombo;
+    private javax.swing.JComboBox crgCmb;
     private javax.swing.JTextField dirTxt;
     private javax.swing.JTable empTbl;
     private javax.swing.JTextField fnacTxt;

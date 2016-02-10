@@ -445,9 +445,10 @@ public class DEmpleado extends DPersona{
            
            rs=calStat.executeQuery();          
         
-           if(rs!=null){
+           if(rs.next()){
                resp = "OK";
                return rs.getInt(1);
+                       
            }
            else{
                resp="No se obtuvieron datos...";
@@ -482,7 +483,7 @@ public class DEmpleado extends DPersona{
            
            rs=calStat.executeQuery();          
         
-           if(rs!=null){
+           if(rs.next()){
                resp = "OK";
                return rs.getInt(1);
            }

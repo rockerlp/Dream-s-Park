@@ -1,6 +1,7 @@
 use ProyectoBD;
-
-
+select * from Eventos;
+select * from Reservacion;
+call Buscar_Evento("2016-02-13","dsfgsdfg","asdfads",20,20.3);
 delimiter |
 create procedure insertar_Evento(in fech date,
 in sal varchar(15),in np int, in des varchar(100),
@@ -8,13 +9,14 @@ in cost double,in idTem int,in idTip int,in idEst int)
 begin 
 	set foreign_key_checks=0;
 	
-	insert into Eventos (idEVentos,fecha,salon,numPersonas,descripcion,costo,Tematica_idTematica,Tipo_Evento_idTipo,Estado_Evento_idEstado_Evento)values(idEv,fech,sal,np,des,cost,idTem,idTip,idEst);
+	insert into Eventos (fecha,salon,numPersonas,descripcion,costo,Tematica_idTematica,Tipo_Evento_idTipo_Evento,Estado_Evento_idEstado_Evento)
+	values(fech,sal,np,des,cost,idTem,idTip,idEst);
 	set foreign_key_checks=1;
 	
 end
 |
 delimiter ;
-
+drop procedure insertar_Evento;
 
 delimiter |
 create procedure Buscar_Evento(in fech date,in des varchar(100),in sal varchar(15),in np int,in cost double)

@@ -198,7 +198,7 @@ public class DReservacion {
         return  resp;
     }
     
-    public int BuscarEvento(String fecha,String desc,String sal,int np,Double cost) throws SQLException{
+    public int BuscarEvento(String fecha,String desc,String sal,int np,double cost) throws SQLException{
         
         Connection con = new Conexion().getCon();
         CallableStatement calStat=null;
@@ -216,7 +216,7 @@ public class DReservacion {
             
             rs=calStat.executeQuery();
             
-            if(rs!=null){
+            if(rs.next()){
                 resp = "OK";
                 
                 return rs.getInt(1);
@@ -256,7 +256,7 @@ public class DReservacion {
             
             rs=calStat.executeQuery();
             
-            if(rs!=null){
+            if(rs.next()){
                 resp = "OK";
                 
                 return rs.getInt(1);
@@ -295,7 +295,7 @@ public class DReservacion {
             
             rs=calStat.executeQuery();
             
-            if(rs!=null){
+            if(rs.next()){
                 resp = "OK";
                 
                 return rs.getInt(1);

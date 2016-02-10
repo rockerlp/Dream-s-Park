@@ -37,8 +37,8 @@ public class RsrvScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
         GetDataClientes();
         GetDataActivos();
-        GetDataCancelados();
-        GetDataCompletados();
+        //GetDataCancelados();
+        //GetDataCompletados();
         GetDataTematicas();
         GetDataTipos();
         //String dat =this.fchDate.getDateFormatString();
@@ -692,24 +692,26 @@ public class RsrvScn extends javax.swing.JFrame {
                 int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
                 int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
                 int idEstE = NEvento.BuscarEstadoNombre("Activado");
-                int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
-                        this.descTxt.getText(),this.salTxt.getText(),
-                        Integer.parseInt(this.npTxt.getText()),
-                        Double.parseDouble(this.prcTxt.getText()));
+                int an = this.fchDate.getDate().getYear()+1900;
+                int mon=this.fchDate.getDate().getMonth()+1;
+                int day =this.fchDate.getDate().getDate();
+                String fch = ""+an+"-0"+mon+"-"+day;
+                String salon=this.salTxt.getText();
+                
+                int np = Integer.parseInt(this.npTxt.getText());
+                String desc=this.descTxt.getText();
+                double pr = Double.parseDouble(this.prcTxt.getText());
+                rpta2=NEvento.insertar(fch,salon,np, desc,pr,idTem, idTip, idEstE);
+                int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
                 String Clt=this.CltCmb.getSelectedItem().toString();
                 String[] split=Clt.split(" ");
                 int idC = NReservacion.BuscarCliente(split[0], split[1]);
                 int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
                 
-                rpta2=NEvento.insertar(this.fchDate.getDate().toString(),
-                        this.salTxt.getText(),
-                        Integer.parseInt(this.npTxt.getText()),
-                        this.descTxt.getText() ,
-                        Double.parseDouble(this.prcTxt.toString()),
-                        idTem, idTip, idEstE);
-                rpta = NReservacion.insertar(this.fchDate.getDate().toString(),
-                        this.descTxt.toString(),
-                        Double.parseDouble(this.prcTxt.toString()), idEv,
+                
+                rpta = NReservacion.insertar(fch,
+                        desc,
+                       pr, idEv,
                         idC, idEstR);
                 if (rpta.equals("OK")&&rpta2.equals("OK")){
                     JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
@@ -813,7 +815,7 @@ public class RsrvScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.rsrTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
                     rs.getString("descripcion"),rs.getDouble("precio") });
             }
@@ -943,7 +945,7 @@ public class RsrvScn extends javax.swing.JFrame {
             
             while(rs.next()){
                 
-                this.CltCmb.addItem(rs.getString(1));
+                this.CltCmb.addItem(rs.getString(1)+" "+rs.getString(2));
             }
             //this.empTbl.setModel(model);
         } catch (SQLException ex) {
