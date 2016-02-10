@@ -40,6 +40,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         GetDataHorario();
+        GetDataCargo();
     }
     
     /**
@@ -402,8 +403,8 @@ public class EmpleadoScn extends javax.swing.JFrame {
             this.ciTxt.setText("");
             this.dirTxt.setText("");
             this.fnacTxt.setText("");
-            this.crgCombo.setSelectedIndex(0);
-            this.horCombo.setSelectedIndex(0);
+            //this.crgCombo.setSelectedIndex(0);
+            //this.horCombo.setSelectedIndex(0);
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
     
@@ -476,8 +477,8 @@ public class EmpleadoScn extends javax.swing.JFrame {
         this.ciTxt.setText("");
         this.dirTxt.setText("");
         this.fnacTxt.setText("");
-        this.crgCombo.setSelectedIndex(0);
-        this.horCombo.setSelectedIndex(0);
+        //this.crgCombo.setSelectedIndex(0);
+        //this.horCombo.setSelectedIndex(0);
     }//GEN-LAST:event_CrearBtnActionPerformed
     
     private void crgComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crgComboActionPerformed
@@ -554,21 +555,16 @@ public class EmpleadoScn extends javax.swing.JFrame {
             
             rs = new NEmpleado().MostrarCargosNombres();
             if(this.crgCombo.getItemCount()==2){
-                //model = (DefaultTableModel)this.empTbl.getModel();
-                //model.setRowCount(0);
+                
             }
             
-            //model = (DefaultTableModel)this.empTbl.getModel();
+            
             
             while(rs.next()){
-                //model.addRow( new Object[] {rs.getString("Cedula"),
-                //  rs.getString("Nombres"),
-                // rs.getString("Apellidos"), rs.getInt("Edad"),
-                // rs.getString("Direccion"),rs.getString("Cargo"),
-                //rs.getString("Horario") });
+               
                 this.crgCombo.addItem(rs.getString(1));
             }
-            //this.empTbl.setModel(model);
+           
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }

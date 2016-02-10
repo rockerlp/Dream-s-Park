@@ -30,6 +30,7 @@ public class TipoScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        GetData();
     }
 
     /**
@@ -56,7 +57,7 @@ public class TipoScn extends javax.swing.JFrame {
         ElimBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         SaveBtn.setText("GUARDAR");
         SaveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -106,11 +107,11 @@ public class TipoScn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Title 1", "Nombre", "Descripcion"
+                "Nombre", "Descripcion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -118,7 +119,12 @@ public class TipoScn extends javax.swing.JFrame {
             }
         });
         crgTbl.setEnabled(false);
+        crgTbl.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(crgTbl);
+        if (crgTbl.getColumnModel().getColumnCount() > 0) {
+            crgTbl.getColumnModel().getColumn(0).setResizable(false);
+            crgTbl.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         ElimBtn.setText("ELIMINAR");
         ElimBtn.addActionListener(new java.awt.event.ActionListener() {

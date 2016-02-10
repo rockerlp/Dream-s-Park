@@ -445,7 +445,7 @@ public class CltScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.tablaListClt.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("idCliente"), rs.getString("cédula"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("fechaNacimiento"), rs.getString("dirección")  });
+                model.addRow( new Object[] {rs.getInt("idCliente"), rs.getString("CI_RUC"), rs.getString("nombres"), rs.getString("apellidos")});
             }
             this.tablaListClt.setModel(model);
         } catch (SQLException ex) {

@@ -32,6 +32,13 @@ public class EvntScn extends javax.swing.JFrame {
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.agrBtn.setVisible(false);
+        GetDataClientes();
+        GetDataActivos();
+        GetDataCancelados();
+        GetDataCompletados();
+        GetDataTematicas();
+        GetDataTipos();
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
     }
     
     /**

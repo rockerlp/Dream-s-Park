@@ -58,6 +58,11 @@ public class EditarCargoScn extends javax.swing.JFrame {
         IngBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Cargos");
 
@@ -300,6 +305,11 @@ public class EditarCargoScn extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_IngBtnActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        //EmpleadoScn.ge
+    }//GEN-LAST:event_formWindowClosing
     
     /**
      * @param args the command line arguments

@@ -41,7 +41,7 @@ create view Mostrar_Evento_Cliente_EstadoAct  as
 	and e.Tematica_idTematica=t.idTematica
 	and e.Tipo_Evento_idTipo_Evento=te.idTipo_Evento
     and e.Estado_Evento_idEstado_Evento=ee.idEstado_Evento
-	and er.Nombre="Activo";
+	and ee.Nombre="Activo";
 
 |
 delimiter ;
@@ -56,7 +56,7 @@ create view Mostrar_Evento_Cliente_EstadoComp  as
 	and e.Tematica_idTematica=t.idTematica
 	and e.Tipo_Evento_idTipo_Evento=te.idTipo_Evento
     and e.Estado_Evento_idEstado_Evento=ee.idEstado_Evento
-	and er.Nombre="Completado";
+	and ee.Nombre="Completado";
 
 |
 delimiter ;
@@ -71,7 +71,7 @@ create view Mostrar_Evento_Cliente_EstadoCan  as
 	and e.Tematica_idTematica=t.idTematica
 	and e.Tipo_Evento_idTipo_Evento=te.idTipo_Evento
     and e.Estado_Evento_idEstado_Evento=ee.idEstado_Evento
-	and er.Nombre="Cancelado";
+	and ee.Nombre="Cancelado";
 
 |
 delimiter ;

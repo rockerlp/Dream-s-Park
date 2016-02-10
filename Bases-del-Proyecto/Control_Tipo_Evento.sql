@@ -1,6 +1,5 @@
 use ProyectoBD;
 
-
 delimiter |
 create procedure insertar_Tipo_Evento(in nom varchar(20),in des varchar(100))
 begin 

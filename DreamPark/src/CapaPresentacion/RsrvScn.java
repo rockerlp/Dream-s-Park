@@ -35,6 +35,12 @@ public class RsrvScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        GetDataClientes();
+        GetDataActivos();
+        GetDataCancelados();
+        GetDataCompletados();
+        GetDataTematicas();
+        GetDataTipos();
         //String dat =this.fchDate.getDateFormatString();
         this.agrBtn.setVisible(false);
         this.fchDate.setDateFormatString("yyyy-MM-dd");

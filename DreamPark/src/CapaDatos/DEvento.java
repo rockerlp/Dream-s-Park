@@ -137,7 +137,7 @@ public class DEvento {
         
            if(rs!=null){
                resp = "OK";
-               
+               i=rs.getInt(1);
                return rs.getInt(1);
            }
            else{
@@ -242,7 +242,7 @@ public class DEvento {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Mostrar_Reservacion_Evento_Cliente_EstadoComp";
+        String query ="select * from Mostrar_Evento_Cliente_EstadoComp";
         try{            
             rs = st.executeQuery(query);           
         }
@@ -257,7 +257,7 @@ public class DEvento {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Mostrar_Reservacion_Evento_Cliente_EstadoCan";
+        String query ="select * from Mostrar_Evento_Cliente_EstadoCan";
         try{            
             rs = st.executeQuery(query);           
         }
@@ -500,7 +500,7 @@ public class DEvento {
         ResultSet rs=null;
         int i=0;
         String resp="";
-        String query ="{call insertar_Tipo_Evento}";        
+        String query ="{call insertar_Tipo_Evento(?,?)}";        
         try{            
            calStat = con.prepareCall(query);
            calStat.setString(1, nom);
