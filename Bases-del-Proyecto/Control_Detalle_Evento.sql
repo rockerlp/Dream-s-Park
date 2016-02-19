@@ -2,12 +2,9 @@ use ProyectoBD;
 
 
 delimiter |
-create procedure insertar_detalle_Evento(in idEx int ,in idInv int , in idEv int)
+create procedure insertar_proveedor(in nom varchar(25), in dir varchar(35), in telf varchar(10))
 begin 
-	set foreign_key_checks=0;
-	insert into detalleEvento (Extras_idExtras,Inventario_idInventario,Eventos_idEventos)values(idEx,idInv,idEv);
-	set foreign_key_checks=1;
-	
+	insert into Proveedor (nombre,direccion,telefono)values(nom,dir,telf);
 end
 |
 delimiter ;
@@ -15,29 +12,25 @@ delimiter ;
 
 
 delimiter |
-create view Mostrar_detalle_evento as
-	select * from detalleEvento;
+create view Mostrar_Proveedor as
+	select * from Proveedor;
+
 |
 delimiter ;
 
-
-
 delimiter |
-create procedure Editar_detalle_evento(in idE int,in idInv int , in idEv int)
+create procedure Editar_proveedor(in idProv int, in nom varchar(25), in dir varchar(35), in telf varchar(10))
 begin 
-	set foreign_key_checks=0;
-	update detalleEvento set Extras_idExtras=idE,Inventario_idInventario=idInv where Eventos_idEventos=idEv;
-	set foreign_key_checks=1;
+	update Proveedor set Nombre=nom, direccion=dir,telefono=telf where idProveedor=idProv;
 end
 |
 delimiter ;
 
 
-
 delimiter |
-create procedure Borrar_detalle_evento(in idE int,in idInv int , in idEv int)
+create procedure Borrar_proveedor(in idProv int)
 begin 
-	delete from detalleEvento where Extras_idExtras=idE AND Inventario_idInventario=idInv AND Eventos_idEventos=idEv;
+	delete from Proveedor where idProveedor=idProv;
 end
 |
 delimiter ;

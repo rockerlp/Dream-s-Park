@@ -330,10 +330,7 @@ public class ProvScn extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void Prov_TblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Prov_TblMouseClicked
-        this.CrearBtn.setVisible(false);
-        this.EditBtn.setVisible(true);
-        this.ElimBtn.setVisible(true);
-        this.CancelBtn.setVisible(true);
+        
         int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
         this.NomTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 1)); 
         this.DirTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 2));

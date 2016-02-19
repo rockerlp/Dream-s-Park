@@ -12,8 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -109,6 +114,12 @@ public class RsrvScn extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        rsrTbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        rsrTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rsrTblMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(rsrTbl);
@@ -395,7 +406,7 @@ public class RsrvScn extends javax.swing.JFrame {
     
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
         // TODO add your handling code here:
-        this.fchDate.enable(true);
+        this.fchDate.setEnabled(true);
         this.descTxt.enable(true);
         this.prcTxt.enable(true);
         this.salTxt.enable(true);
@@ -437,7 +448,7 @@ public class RsrvScn extends javax.swing.JFrame {
             this.CrearBtn.setVisible(true);
             this.IngBtn.setVisible(false);
             this.CancelBtn.setVisible(false);
-            this.fchDate.enable(false);
+            this.fchDate.setEnabled(false);
             this.descTxt.enable(false);
             this.prcTxt.enable(false);
             this.salTxt.enable(false);
@@ -452,7 +463,7 @@ public class RsrvScn extends javax.swing.JFrame {
             this.EditBtn.setVisible(true);
             this.ElimBtn.setVisible(true);
             
-            this.fchDate.enable(false);
+            this.fchDate.setEnabled(false);
             this.descTxt.enable(false);
             this.prcTxt.enable(false);
             this.salTxt.enable(false);
@@ -610,6 +621,81 @@ public class RsrvScn extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_fltrCmbActionPerformed
     
+    private void rsrTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rsrTblMouseClicked
+        // TODO add your handling code here:
+        ResultSet rs = null;
+        
+        Date date = null;
+        this.CrearBtn.setVisible(false);
+        this.EditBtn.setVisible(true);
+        this.ElimBtn.setVisible(true);
+        this.CancelBtn.setVisible(true);
+        int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
+        //(Date) this.rsrTbl.getModel().getValueAt(index, 1)
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = formatter.parse((String)this.rsrTbl.getModel().getValueAt(index, 0));
+        } catch (ParseException ex) {
+            Logger.getLogger(RsrvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.fchDate.setDate(date);
+        this.descTxt.setText((String)this.rsrTbl.getModel().getValueAt(index, 2));
+        this.prcTxt.setText(""+this.rsrTbl.getModel().getValueAt(index, 3));
+        
+        ComboBoxModel cmbmodel = this.CltCmb.getModel();
+        int size = cmbmodel.getSize();
+        for(int i=0;i<size;i++) {
+            Object element = cmbmodel.getElementAt(i);
+            if(element.equals(this.rsrTbl.getModel().getValueAt(index, 1))){
+                this.CltCmb.setSelectedIndex(i);
+            }
+        }
+        try {
+            String client = (String)this.rsrTbl.getModel().getValueAt(index, 1);
+            String[] split =client.split(" ");
+            String fech=(String)this.rsrTbl.getModel().getValueAt(index, 0);
+            rs = new NReservacion().InfoEvento(fech, split[0], split[1]);
+            /*if(this.rsrTbl.getRowCount()!=0){
+            model = (DefaultTableModel)this.rsrTbl.getModel();
+            model.setRowCount(0);
+            }*/
+            
+            //model = (DefaultTableModel)this.rsrTbl.getModel();
+            
+           if(rs.next()){
+                /*model.addRow( new Object[] {rs.getString("fecha"),
+                rs.getString("nombres")+" "+rs.getString("apellidos"),
+                rs.getString("descripcion"),rs.getDouble("precio") });
+                */
+               String pr = rs.getString("salon");
+                this.salTxt.setText(pr);
+                this.npTxt.setText(String.valueOf(rs.getInt("numero")));
+                ComboBoxModel cmbmodel2 = this.temCmb.getModel();
+                ComboBoxModel cmbmodel3 = this.teCmb.getModel();
+                int size2 = cmbmodel2.getSize();
+                int size3 = cmbmodel3.getSize();
+                for(int i=0;i<size2;i++) {
+                    Object element = cmbmodel2.getElementAt(i);
+                    if(element.equals(rs.getString("tematica"))){
+                        this.temCmb.setSelectedIndex(i);
+                    } else {
+                    }
+                }
+                for(int i=0;i<size3;i++) {
+                    Object element = cmbmodel3.getElementAt(i);
+                    if(element.equals(rs.getString("tipo"))){
+                        this.teCmb.setSelectedIndex(i);
+                    } else {
+                    }
+                }
+           }
+            //this.rsrTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_rsrTblMouseClicked
+    
     /**
      * @param args the command line arguments
      */
@@ -711,7 +797,7 @@ public class RsrvScn extends javax.swing.JFrame {
                 
                 rpta = NReservacion.insertar(fch,
                         desc,
-                       pr, idEv,
+                        pr, idEv,
                         idC, idEstR);
                 if (rpta.equals("OK")&&rpta2.equals("OK")){
                     JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
@@ -750,27 +836,29 @@ public class RsrvScn extends javax.swing.JFrame {
         String rpta="";
         String rpta2="";
         try {
+            String desc=this.descTxt.getText();
             int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
-            int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
-            int idEstE = NEvento.BuscarEstadoNombre("Activado");
-            int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
-                    this.descTxt.getText(),this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    Double.parseDouble(this.prcTxt.getText()));
-            String Clt=this.CltCmb.getSelectedItem().toString();
-            String[] split=Clt.split(" ");
-            int idC = NReservacion.BuscarCliente(split[0], split[1]);
-            int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
-            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta2=NEvento.Editar(idEv,this.fchDate.getDate().toString(),
-                    this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    this.descTxt.getText() ,
-                    Double.parseDouble(this.prcTxt.toString()),
-                    idTem, idTip, idEstE);
-            rpta = NReservacion.Editar(Integer.parseInt(this.rsrTbl.getModel().getValueAt(index, 0).toString())
-                    ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
-                    idEv,idC,idEstR );
+                int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+                int idEstE = NEvento.BuscarEstadoNombre("Activado");
+                int an = this.fchDate.getDate().getYear()+1900;
+                int mon=this.fchDate.getDate().getMonth()+1;
+                int day =this.fchDate.getDate().getDate();
+                String fch = ""+an+"-0"+mon+"-"+day;
+                String salon=this.salTxt.getText();
+                int np = Integer.parseInt(this.npTxt.getText());
+                double pr = Double.parseDouble(this.prcTxt.getText());
+                int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+                rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
+                String Clt=this.CltCmb.getSelectedItem().toString();
+                String[] split=Clt.split(" ");
+                int idC = NReservacion.BuscarCliente(split[0], split[1]);
+                int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
+                int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+                
+                rpta = NReservacion.Editar(idR,fch,
+                        desc,
+                        pr, idEv,
+                        idC, idEstR);
             if (rpta.equals("OK")&&rpta2.equals("OK")){
                 JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                 this.fchDate.setDateFormatString("yyyy-MM-dd");
@@ -901,7 +989,7 @@ public class RsrvScn extends javax.swing.JFrame {
             rpta = NReservacion.Eliminar(Integer.parseInt(this.rsrTbl.getModel().getValueAt(index, 0).toString())
                     ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
                     idEv,idC,idEstR );
-             if (rpta.equals("OK")&&rpta2.equals("OK")){
+            if (rpta.equals("OK")&&rpta2.equals("OK")){
                 JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                 this.fchDate.setDateFormatString("yyyy-MM-dd");
                 this.descTxt.setText("");
@@ -931,7 +1019,7 @@ public class RsrvScn extends javax.swing.JFrame {
     }
     
     public void GetDataClientes(){
-         ResultSet rs = null;
+        ResultSet rs = null;
         DefaultTableModel model=null;
         
         try {
@@ -954,7 +1042,7 @@ public class RsrvScn extends javax.swing.JFrame {
     }
     
     public void GetDataTematicas(){
-         ResultSet rs = null;
+        ResultSet rs = null;
         DefaultTableModel model=null;
         
         try {
@@ -977,7 +1065,7 @@ public class RsrvScn extends javax.swing.JFrame {
     }
     
     public void GetDataTipos(){
-         ResultSet rs = null;
+        ResultSet rs = null;
         DefaultTableModel model=null;
         
         try {

@@ -39,6 +39,10 @@ public class NReservacion {
         return new DReservacion().BuscarCliente(nom, ape);
     }
     
+    public static int BuscarIdReservacion(int idEv,String fecha,int idC) throws SQLException{
+        return new DReservacion().BuscarIdReservacion(idEv, fecha, idC);
+    }
+    
     public static int BuscarEstadoReservacion(String nom) throws SQLException{
         return new DReservacion().BuscarEstadoReservacion(nom);
     }
@@ -98,5 +102,9 @@ public class NReservacion {
      public ResultSet MostrarTipos() throws SQLException{
         return new DReservacion().MostrarTipos();
     }
+     
+     public ResultSet InfoEvento(String fech,String nom,String ape){
+         return new DReservacion().GetInfoEvento(fech, nom, ape);
+     }
     
 }

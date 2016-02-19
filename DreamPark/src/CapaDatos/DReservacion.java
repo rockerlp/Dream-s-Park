@@ -241,6 +241,48 @@ public class DReservacion {
         return 0;
     }
     
+    public int BuscarIdReservacion(int idEv,String fecha,int idC) throws SQLException{
+        
+        Connection con = new Conexion().getCon();
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call BuscarId_Reservacion(?,?,?)}";
+        try{
+            calStat = con.prepareCall(query);
+            calStat.setInt(1, idEv);
+            calStat.setString(2, fecha);
+            calStat.setInt(3, idC);
+            
+            
+            rs=calStat.executeQuery();
+            
+            if(rs.next()){
+                resp = "OK";
+                
+                return rs.getInt(1);
+            }
+            else{
+                resp="No se obtuvieron datos...";
+            }
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),"No se ha podido realizar la busqueda","Error",JOptionPane.ERROR_MESSAGE);
+            
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }
+        }
+        return 0;
+    }
+    
     public int BuscarCliente(String nom,String ape) throws SQLException{
         
         Connection con = new Conexion().getCon();
@@ -365,6 +407,32 @@ public class DReservacion {
         return rs;
     }
     
+     public ResultSet GetInfoEvento(String fech,String nom,String ape){
+         Connection con = new Conexion().getCon();
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        int i=0;
+        String resp="";
+        String query ="{call Buscar_Evento_Cliente_Activo(?,?,?)}";
+        try{
+            calStat = con.prepareCall(query);
+            calStat.setString(1, fech);
+             calStat.setString(2, nom);
+              calStat.setString(3, ape);
+            
+            rs=calStat.executeQuery();
+           
+            
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JFrame(),"No se ha podido realizar la busqueda","Error",JOptionPane.ERROR_MESSAGE);
+            
+        }
+        
+        return rs;
+     }
+     
     public String getDesc() {
         return desc;
     }

@@ -318,7 +318,7 @@ public class DEvento {
         ResultSet rs=null;
         int i=0;
         String resp="";
-        String query ="{call Editar_Evento(?,?,?,?,?,?,?,?,?)}";        
+        String query ="{call Editar_Eventos(?,?,?,?,?,?,?,?,?)}";        
         try{            
            calStat = con.prepareCall(query);
            calStat.setInt(1, de.getIdEvento());
