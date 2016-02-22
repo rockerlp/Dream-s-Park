@@ -21,16 +21,23 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TematicaScn extends javax.swing.JFrame {
 
+    private static TematicaScn tmsc = new TematicaScn();
+    
     /**
      * Creates new form TematicaScn
      */
-    public TematicaScn() {
+    private TematicaScn() {
         initComponents();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        GetData();;
+    }
+
+    public static TematicaScn getTmsc() {
+        return tmsc;
     }
 
     /**
@@ -58,6 +65,11 @@ public class TematicaScn extends javax.swing.JFrame {
         CancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         SaveBtn.setText("GUARDAR");
         SaveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -118,8 +130,13 @@ public class TematicaScn extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        crgTbl.setEnabled(false);
+        crgTbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         crgTbl.getTableHeader().setReorderingAllowed(false);
+        crgTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                crgTblMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(crgTbl);
         if (crgTbl.getColumnModel().getColumnCount() > 0) {
             crgTbl.getColumnModel().getColumn(0).setResizable(false);
@@ -295,6 +312,45 @@ public class TematicaScn extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
 
+    private void crgTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crgTblMouseClicked
+        // TODO add your handling code here:
+        this.CrearBtn.setVisible(false);
+        this.EditBtn.setVisible(true);
+        this.ElimBtn.setVisible(true);
+        this.CancelBtn.setVisible(true);
+        int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
+        this.NomTxt.setText((String)this.crgTbl.getModel().getValueAt(index, 0));
+        this.descTxt.setText((String)this.crgTbl.getModel().getValueAt(index, 1));
+        try {
+            idTem = NEvento.BuscarTematicaNombre((String)this.crgTbl.getModel().getValueAt(index, 0));
+        } catch (SQLException ex) {
+            Logger.getLogger(TematicaScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_crgTblMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        
+        Object obj=null;
+        RsrvScn rs = RsrvScn.getRscn();
+        javax.swing.JComboBox temCmb = rs.getTemCmb();
+        
+        int size = rs. getTemCmb().getItemCount();
+        for(int i=size-1;i>=0;i--){
+            obj =temCmb.getItemAt(i);
+            
+                if(!obj.equals(" ")){
+                    if(!obj.equals("<Editar>")){
+                        temCmb.removeItemAt(i);
+                    }
+                    
+                }
+            
+            
+        }
+        rs.GetDataTematicas();
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -330,7 +386,7 @@ public class TematicaScn extends javax.swing.JFrame {
         });
     }
     
-    public void GetData(){
+    protected void GetData(){
          ResultSet rs = null;
         DefaultTableModel model=null;
        
@@ -354,7 +410,7 @@ public class TematicaScn extends javax.swing.JFrame {
         }
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             if((this.NomTxt.getText().equals(""))||
@@ -396,12 +452,12 @@ public class TematicaScn extends javax.swing.JFrame {
         GetData();
     }
     
-    public void SaveData(){
+    protected void SaveData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
             //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta = NEvento.EditarTematica(this.NomTxt.getText(), this.descTxt.getText());
+            rpta = NEvento.EditarTematica(idTem,this.NomTxt.getText(), this.descTxt.getText());
             if (rpta.equals("OK")){
                     JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                     this.NomTxt.setText("");
@@ -422,7 +478,7 @@ public class TematicaScn extends javax.swing.JFrame {
         GetData();
     }
     
-    public void DeleteData(){
+    protected void DeleteData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
@@ -444,6 +500,8 @@ public class TematicaScn extends javax.swing.JFrame {
         }
         GetData();
     }
+    
+    private static int idTem=0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;

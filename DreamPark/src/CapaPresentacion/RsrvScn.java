@@ -10,6 +10,8 @@ import CapaNegocios.NProveedor;
 import CapaNegocios.NReservacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -30,25 +32,33 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RsrvScn extends javax.swing.JFrame {
     
+    private static RsrvScn rscn = new RsrvScn();
+    
     /**
      * Creates new form RsrvScn
      */
-    public RsrvScn() {
+    private RsrvScn() {
         initComponents();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
+        this.comChck.setVisible(false);
         GetDataClientes();
-        GetDataActivos();
+        //GetDataActivos();
         //GetDataCancelados();
         //GetDataCompletados();
         GetDataTematicas();
         GetDataTipos();
         //String dat =this.fchDate.getDateFormatString();
-        this.agrBtn.setVisible(false);
         this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.agrBtn.setVisible(false);
+        
+    }
+    
+    public static RsrvScn getRscn() {
+        return rscn;
     }
     
     /**
@@ -92,6 +102,7 @@ public class RsrvScn extends javax.swing.JFrame {
         npTxt = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         temCmb = new javax.swing.JComboBox();
+        comChck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -131,7 +142,7 @@ public class RsrvScn extends javax.swing.JFrame {
 
         jLabel2.setText("Fecha");
 
-        fltrCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Activos", "Completados", "Cancelados" }));
+        fltrCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Activos", "Completados", "Cancelados" }));
         fltrCmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fltrCmbActionPerformed(evt);
@@ -199,6 +210,11 @@ public class RsrvScn extends javax.swing.JFrame {
         jLabel8.setText("Items");
 
         agrBtn.setText("Agregar");
+        agrBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agrBtnActionPerformed(evt);
+            }
+        });
 
         EditBtn.setText("EDITAR");
         EditBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -214,14 +230,14 @@ public class RsrvScn extends javax.swing.JFrame {
             }
         });
 
-        ElimBtn.setText("ELIMINAR");
+        ElimBtn.setText("CANCELAR");
         ElimBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ElimBtnActionPerformed(evt);
             }
         });
 
-        CancelBtn.setText("CANCELAR");
+        CancelBtn.setText("REGRESAR");
         CancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelBtnActionPerformed(evt);
@@ -259,6 +275,8 @@ public class RsrvScn extends javax.swing.JFrame {
                 temCmbActionPerformed(evt);
             }
         });
+
+        comChck.setText("Completado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -302,33 +320,35 @@ public class RsrvScn extends javax.swing.JFrame {
                                         .addComponent(agrBtn))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(CrearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(29, 29, 29)
-                                                    .addComponent(SaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(IngBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addComponent(EditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(ElimBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(18, 18, 18)
-                                                    .addComponent(CancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addComponent(jLabel7)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(teCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addComponent(jLabel11)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(temCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel6)
-                                                    .addGap(103, 103, 103)
-                                                    .addComponent(CltCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(CrearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(29, 29, 29)
+                                                        .addComponent(SaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(IngBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addComponent(EditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(ElimBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(CancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addComponent(jLabel7)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(teCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jLabel6)
+                                                        .addGap(103, 103, 103)
+                                                        .addComponent(CltCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addComponent(jLabel11)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(temCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(comChck))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
@@ -341,7 +361,7 @@ public class RsrvScn extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +386,8 @@ public class RsrvScn extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fltrCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)))
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -380,7 +401,9 @@ public class RsrvScn extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(temCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comChck)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(agrBtn, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -395,10 +418,10 @@ public class RsrvScn extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(CancelBtn)
                             .addComponent(ElimBtn)
-                            .addComponent(EditBtn))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(EditBtn))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -420,6 +443,34 @@ public class RsrvScn extends javax.swing.JFrame {
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = new java.util.Date();
+        Date date2 = null;
+        //String dat = dateFormat.format(date);
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        int an = this.fchDate.getDate().getYear()+1900;
+        int mon=this.fchDate.getDate().getMonth()+1;
+        int day =this.fchDate.getDate().getDate();
+        String fch = ""+an+"-0"+mon+"-"+day;
+        try {
+            date2= ft.parse(fch);
+        } catch (ParseException ex) {
+            Logger.getLogger(RsrvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int comp = date.compareTo(date2);
+        if(comp<0){
+            this.comChck.setVisible(false);
+            
+        }
+        if(comp==0){
+            this.comChck.setVisible(true);
+        }
+        if(comp>0){
+            this.comChck.setVisible(true);
+            
+        }
+        
     }//GEN-LAST:event_EditBtnActionPerformed
     
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
@@ -429,15 +480,38 @@ public class RsrvScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.fchDate.enable(false);
+        this.descTxt.enable(false);
+        this.prcTxt.enable(false);
+        this.salTxt.enable(false);
+        this.npTxt.enable(false);
+        this.CltCmb.enable(false);
+        this.teCmb.enable(false);
+        this.temCmb.enable(false);
+        this.agrBtn.setVisible(false);
+        this.itmTbl.enable(false);
+        if(this.CrearBtn.isEnabled()){
+            this.CancelBtn.setVisible(false);
+        }
+        else{
+            this.CancelBtn.setVisible(true);
+        }
+        DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+        model.setRowCount(0);
+        this.itmTbl.setModel(model);
         
     }//GEN-LAST:event_SaveBtnActionPerformed
     
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
-        //DeleteData();
+        DeleteData();
+        this.fchDate.setEnabled(true);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
+        
         
     }//GEN-LAST:event_ElimBtnActionPerformed
     
@@ -448,6 +522,7 @@ public class RsrvScn extends javax.swing.JFrame {
             this.CrearBtn.setVisible(true);
             this.IngBtn.setVisible(false);
             this.CancelBtn.setVisible(false);
+            this.comChck.setVisible(false);
             this.fchDate.setEnabled(false);
             this.descTxt.enable(false);
             this.prcTxt.enable(false);
@@ -458,6 +533,7 @@ public class RsrvScn extends javax.swing.JFrame {
             this.temCmb.enable(false);
             this.agrBtn.setVisible(false);
             this.itmTbl.enable(false);
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
         }
         if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
             this.EditBtn.setVisible(true);
@@ -474,14 +550,18 @@ public class RsrvScn extends javax.swing.JFrame {
             this.agrBtn.setVisible(false);
             this.itmTbl.enable(false);
             this.SaveBtn.setVisible(false);
+            this.comChck.setVisible(false);
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
             flag=false;
         }
         if(this.EditBtn.isVisible()&&this.ElimBtn.isVisible()&&!this.SaveBtn.isVisible()&&flag){
             this.EditBtn.setVisible(false);
+            this.fchDate.setEnabled(false);
             this.ElimBtn.setVisible(false);
             this.CrearBtn.setVisible(true);
+            this.comChck.setVisible(false);
             this.CancelBtn.setVisible(false);
-            this.fchDate.setDateFormatString("");
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
             this.descTxt.setText("");
             this.prcTxt.setText("");
             this.salTxt.setText("");
@@ -493,6 +573,7 @@ public class RsrvScn extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
             model.setRowCount(0);
             this.itmTbl.setModel(model);
+            
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
     
@@ -547,6 +628,8 @@ public class RsrvScn extends javax.swing.JFrame {
     
     private void CltCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CltCmbActionPerformed
         // TODO add your handling code here:
+        CltScn clt = CltScn.getClt();
+        
         
         this.CltCmb.addActionListener(new ActionListener() {
             
@@ -556,15 +639,18 @@ public class RsrvScn extends javax.swing.JFrame {
                 String selectedBook = (String) combo.getSelectedItem();
                 
                 if(selectedBook.equals("<Editar>")){
-                    CltScn clt = new CltScn();
+                    
                     clt.setVisible(true);
                 }
+                
             }
         });
+        
     }//GEN-LAST:event_CltCmbActionPerformed
     
     private void teCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teCmbActionPerformed
         // TODO add your handling code here:
+        TipoScn tscn = TipoScn.getTpsc();;
         this.teCmb.addActionListener(new ActionListener() {
             
             @Override
@@ -573,7 +659,7 @@ public class RsrvScn extends javax.swing.JFrame {
                 String selectedBook = (String) combo.getSelectedItem();
                 
                 if(selectedBook.equals("<Editar>")){
-                    TipoScn tscn = new TipoScn();
+                    
                     tscn.setVisible(true);
                 }
             }
@@ -591,7 +677,7 @@ public class RsrvScn extends javax.swing.JFrame {
                 String selectedBook = (String) combo.getSelectedItem();
                 
                 if(selectedBook.equals("<Editar>")){
-                    TematicaScn tmscn = new TematicaScn();
+                    TematicaScn tmscn = TematicaScn.getTmsc();
                     tmscn.setVisible(true);
                 }
             }
@@ -600,7 +686,23 @@ public class RsrvScn extends javax.swing.JFrame {
     
     private void fltrCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fltrCmbActionPerformed
         // TODO add your handling code here:
-        
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CrearBtn.setVisible(true);
+        this.comChck.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.descTxt.setText("");
+        this.prcTxt.setText("");
+        this.salTxt.setText("");
+        this.npTxt.setText("");
+        this.CltCmb.setSelectedIndex(0);
+        this.teCmb.setSelectedIndex(0);
+        this.temCmb.setSelectedIndex(0);
+        this.agrBtn.setVisible(false);
+        DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+        model.setRowCount(0);
+        this.itmTbl.setModel(model);
         this.fltrCmb.addActionListener(new ActionListener() {
             
             @Override
@@ -608,8 +710,11 @@ public class RsrvScn extends javax.swing.JFrame {
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
                 String selectedBook = (String) combo.getSelectedItem();
                 
+                
                 if(selectedBook.equals("Activos")){
                     GetDataActivos();
+                    
+                    
                 }
                 if(selectedBook.equals("Completados")){
                     GetDataCompletados();
@@ -626,10 +731,19 @@ public class RsrvScn extends javax.swing.JFrame {
         ResultSet rs = null;
         
         Date date = null;
-        this.CrearBtn.setVisible(false);
-        this.EditBtn.setVisible(true);
-        this.ElimBtn.setVisible(true);
-        this.CancelBtn.setVisible(true);
+        if(this.fltrCmb.getSelectedItem().equals("Cancelados")||this.fltrCmb.getSelectedItem().equals("Completados")){
+            this.CrearBtn.setVisible(true);
+            this.EditBtn.setVisible(false);
+            this.ElimBtn.setVisible(false);
+            this.CancelBtn.setVisible(false);
+        }
+        else{
+            this.CrearBtn.setVisible(false);
+            this.EditBtn.setVisible(true);
+            this.ElimBtn.setVisible(true);
+            this.CancelBtn.setVisible(true);
+        }
+        
         int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
         //(Date) this.rsrTbl.getModel().getValueAt(index, 1)
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -655,19 +769,11 @@ public class RsrvScn extends javax.swing.JFrame {
             String[] split =client.split(" ");
             String fech=(String)this.rsrTbl.getModel().getValueAt(index, 0);
             rs = new NReservacion().InfoEvento(fech, split[0], split[1]);
-            /*if(this.rsrTbl.getRowCount()!=0){
-            model = (DefaultTableModel)this.rsrTbl.getModel();
-            model.setRowCount(0);
-            }*/
             
-            //model = (DefaultTableModel)this.rsrTbl.getModel();
             
-           if(rs.next()){
-                /*model.addRow( new Object[] {rs.getString("fecha"),
-                rs.getString("nombres")+" "+rs.getString("apellidos"),
-                rs.getString("descripcion"),rs.getDouble("precio") });
-                */
-               String pr = rs.getString("salon");
+            if(rs.next()){
+                
+                String pr = rs.getString("salon");
                 this.salTxt.setText(pr);
                 this.npTxt.setText(String.valueOf(rs.getInt("numero")));
                 ComboBoxModel cmbmodel2 = this.temCmb.getModel();
@@ -688,13 +794,17 @@ public class RsrvScn extends javax.swing.JFrame {
                     } else {
                     }
                 }
-           }
+            }
             //this.rsrTbl.setModel(model);
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_rsrTblMouseClicked
+    
+    private void agrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agrBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agrBtnActionPerformed
     
     /**
      * @param args the command line arguments
@@ -731,7 +841,7 @@ public class RsrvScn extends javax.swing.JFrame {
         });
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             String rpta2="";
@@ -831,13 +941,158 @@ public class RsrvScn extends javax.swing.JFrame {
         GetDataActivos();
     }
     
-    public void SaveData(){
-        int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
-        String rpta="";
-        String rpta2="";
+    protected void SaveData(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = new java.util.Date();
+        Date date2 = null;
+        //String dat = dateFormat.format(date);
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        int an = this.fchDate.getDate().getYear()+1900;
+        int mon=this.fchDate.getDate().getMonth()+1;
+        int day =this.fchDate.getDate().getDate();
+        String fch = ""+an+"-0"+mon+"-"+day;
         try {
-            String desc=this.descTxt.getText();
-            int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+            date2= ft.parse(fch);
+        } catch (ParseException ex) {
+            Logger.getLogger(RsrvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int comp = date.compareTo(date2);
+        if(comp<0){
+            SaveAct();
+        }
+        if(comp==0){
+            SaveCompSd();
+        }
+        if(comp>0){
+            this.comChck.setSelected(true);
+            SaveCompPd();
+            
+        }
+        
+        
+    }
+    
+    protected void SaveCompPd(){
+        if(comChck.isSelected()){
+            String rpta="";
+            String rpta2="";
+            try {
+                String desc=this.descTxt.getText();
+                int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+                int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+                int idEstE = NEvento.BuscarEstadoNombre("Completado");
+                int an = this.fchDate.getDate().getYear()+1900;
+                int mon=this.fchDate.getDate().getMonth()+1;
+                int day =this.fchDate.getDate().getDate();
+                String fch = ""+an+"-0"+mon+"-"+day;
+                String salon=this.salTxt.getText();
+                int np = Integer.parseInt(this.npTxt.getText());
+                double pr = Double.parseDouble(this.prcTxt.getText());
+                int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+                rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
+                String Clt=this.CltCmb.getSelectedItem().toString();
+                String[] split=Clt.split(" ");
+                int idC = NReservacion.BuscarCliente(split[0], split[1]);
+                int idEstR=NReservacion.BuscarEstadoReservacion("Completado");
+                int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+                
+                rpta = NReservacion.Editar(idR,fch,
+                        desc,
+                        pr, idEv,
+                        idC, idEstR);
+                if (rpta.equals("OK")&&rpta2.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.fchDate.setDateFormatString("yyyy-MM-dd");
+                    this.descTxt.setText("");
+                    this.prcTxt.setText("");
+                    this.salTxt.setText("");
+                    this.npTxt.setText("");
+                    this.CltCmb.setSelectedIndex(0);
+                    this.teCmb.setSelectedIndex(0);
+                    this.temCmb.setSelectedIndex(0);
+                    DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                    model.setRowCount(0);
+                    this.itmTbl.setModel(model);
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
+    protected void SaveCompSd(){
+        if(comChck.isSelected()){
+            
+            String rpta="";
+            String rpta2="";
+            try {
+                String desc=this.descTxt.getText();
+                int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+                int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+                int idEstE = NEvento.BuscarEstadoNombre("Completado");
+                int an = this.fchDate.getDate().getYear()+1900;
+                int mon=this.fchDate.getDate().getMonth()+1;
+                int day =this.fchDate.getDate().getDate();
+                String fch = ""+an+"-0"+mon+"-"+day;
+                String salon=this.salTxt.getText();
+                int np = Integer.parseInt(this.npTxt.getText());
+                double pr = Double.parseDouble(this.prcTxt.getText());
+                int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+                rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
+                String Clt=this.CltCmb.getSelectedItem().toString();
+                String[] split=Clt.split(" ");
+                int idC = NReservacion.BuscarCliente(split[0], split[1]);
+                int idEstR=NReservacion.BuscarEstadoReservacion("Completado");
+                int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+                
+                rpta = NReservacion.Editar(idR,fch,
+                        desc,
+                        pr, idEv,
+                        idC, idEstR);
+                if (rpta.equals("OK")&&rpta2.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.fchDate.setDateFormatString("yyyy-MM-dd");
+                    this.descTxt.setText("");
+                    this.prcTxt.setText("");
+                    this.salTxt.setText("");
+                    this.npTxt.setText("");
+                    this.CltCmb.setSelectedIndex(0);
+                    this.teCmb.setSelectedIndex(0);
+                    this.temCmb.setSelectedIndex(0);
+                    DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                    model.setRowCount(0);
+                    this.itmTbl.setModel(model);
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        else{
+            String rpta="";
+            String rpta2="";
+            try {
+                String desc=this.descTxt.getText();
+                int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
                 int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
                 int idEstE = NEvento.BuscarEstadoNombre("Activado");
                 int an = this.fchDate.getDate().getYear()+1900;
@@ -859,6 +1114,64 @@ public class RsrvScn extends javax.swing.JFrame {
                         desc,
                         pr, idEv,
                         idC, idEstR);
+                if (rpta.equals("OK")&&rpta2.equals("OK")){
+                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                    this.fchDate.setDateFormatString("yyyy-MM-dd");
+                    this.descTxt.setText("");
+                    this.prcTxt.setText("");
+                    this.salTxt.setText("");
+                    this.npTxt.setText("");
+                    this.CltCmb.setSelectedIndex(0);
+                    this.teCmb.setSelectedIndex(0);
+                    this.temCmb.setSelectedIndex(0);
+                    DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+                    model.setRowCount(0);
+                    this.itmTbl.setModel(model);
+                    this.CrearBtn.setVisible(true);
+                    this.IngBtn.setVisible(false);
+                    this.EditBtn.setVisible(true);
+                    this.ElimBtn.setVisible(true);
+                    this.SaveBtn.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(),rpta);
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    
+    protected void SaveAct(){
+        
+        String rpta="";
+        String rpta2="";
+        try {
+            String desc=this.descTxt.getText();
+            int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
+            int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
+            int idEstE = NEvento.BuscarEstadoNombre("Activado");
+            int an = this.fchDate.getDate().getYear()+1900;
+            int mon=this.fchDate.getDate().getMonth()+1;
+            int day =this.fchDate.getDate().getDate();
+            String fch = ""+an+"-0"+mon+"-"+day;
+            String salon=this.salTxt.getText();
+            int np = Integer.parseInt(this.npTxt.getText());
+            double pr = Double.parseDouble(this.prcTxt.getText());
+            int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+            rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
+            String Clt=this.CltCmb.getSelectedItem().toString();
+            String[] split=Clt.split(" ");
+            int idC = NReservacion.BuscarCliente(split[0], split[1]);
+            int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
+            int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+            
+            rpta = NReservacion.Editar(idR,fch,
+                    desc,
+                    pr, idEv,
+                    idC, idEstR);
             if (rpta.equals("OK")&&rpta2.equals("OK")){
                 JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                 this.fchDate.setDateFormatString("yyyy-MM-dd");
@@ -888,7 +1201,7 @@ public class RsrvScn extends javax.swing.JFrame {
         GetDataActivos();
     }
     
-    public void GetDataActivos(){
+    protected void GetDataActivos(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -905,7 +1218,7 @@ public class RsrvScn extends javax.swing.JFrame {
             while(rs.next()){
                 model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("costo") });
             }
             this.rsrTbl.setModel(model);
         } catch (SQLException ex) {
@@ -913,7 +1226,7 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
-    public void GetDataCompletados(){
+    protected void GetDataCompletados(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -928,9 +1241,9 @@ public class RsrvScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.rsrTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("costo") });
             }
             this.rsrTbl.setModel(model);
         } catch (SQLException ex) {
@@ -938,7 +1251,7 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
-    public void GetDataCancelados(){
+    protected void GetDataCancelados(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -953,9 +1266,9 @@ public class RsrvScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.rsrTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("costo") });
             }
             this.rsrTbl.setModel(model);
         } catch (SQLException ex) {
@@ -963,32 +1276,33 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
-    public void DeleteData(){
-        int index = this.rsrTbl.convertRowIndexToModel(this.rsrTbl.getSelectedRow());
+    protected void DeleteData(){
         String rpta="";
         String rpta2="";
         try {
+            String desc=this.descTxt.getText();
             int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
             int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
-            int idEstE = NEvento.BuscarEstadoNombre("Activado");
-            int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
-                    this.descTxt.getText(),this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    Double.parseDouble(this.prcTxt.getText()));
+            int idEstE = NEvento.BuscarEstadoNombre("Cancelado");
+            int an = this.fchDate.getDate().getYear()+1900;
+            int mon=this.fchDate.getDate().getMonth()+1;
+            int day =this.fchDate.getDate().getDate();
+            String fch = ""+an+"-0"+mon+"-"+day;
+            String salon=this.salTxt.getText();
+            int np = Integer.parseInt(this.npTxt.getText());
+            double pr = Double.parseDouble(this.prcTxt.getText());
+            int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+            rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
             String Clt=this.CltCmb.getSelectedItem().toString();
             String[] split=Clt.split(" ");
             int idC = NReservacion.BuscarCliente(split[0], split[1]);
-            int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
-            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta2=NEvento.Eliminar(idEv,this.fchDate.getDate().toString(),
-                    this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    this.descTxt.getText() ,
-                    Double.parseDouble(this.prcTxt.toString()),
-                    idTem, idTip, idEstE);
-            rpta = NReservacion.Eliminar(Integer.parseInt(this.rsrTbl.getModel().getValueAt(index, 0).toString())
-                    ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
-                    idEv,idC,idEstR );
+            int idEstR=NReservacion.BuscarEstadoReservacion("Cancelado");
+            int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+            
+            rpta = NReservacion.Editar(idR,fch,
+                    desc,
+                    pr, idEv,
+                    idC, idEstR);
             if (rpta.equals("OK")&&rpta2.equals("OK")){
                 JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                 this.fchDate.setDateFormatString("yyyy-MM-dd");
@@ -1015,10 +1329,9 @@ public class RsrvScn extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
-        GetDataActivos();
     }
     
-    public void GetDataClientes(){
+    protected void GetDataClientes(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -1041,13 +1354,13 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
-    public void GetDataTematicas(){
+    protected void GetDataTematicas(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
         try {
             
-            rs = new NReservacion().MostrarTematicas();
+            rs = new NEvento().MostrarTematicasNombres();
             if(this.temCmb.getItemCount()==2){
                 
             }
@@ -1064,7 +1377,7 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
-    public void GetDataTipos(){
+    protected void GetDataTipos(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -1087,6 +1400,8 @@ public class RsrvScn extends javax.swing.JFrame {
         }
     }
     
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JComboBox CltCmb;
@@ -1096,6 +1411,7 @@ public class RsrvScn extends javax.swing.JFrame {
     private javax.swing.JButton IngBtn;
     private javax.swing.JButton SaveBtn;
     private javax.swing.JButton agrBtn;
+    private javax.swing.JCheckBox comChck;
     private javax.swing.JTextArea descTxt;
     private com.toedter.calendar.JDateChooser fchDate;
     private javax.swing.JComboBox fltrCmb;
@@ -1121,4 +1437,30 @@ public class RsrvScn extends javax.swing.JFrame {
     private javax.swing.JComboBox teCmb;
     private javax.swing.JComboBox temCmb;
     // End of variables declaration//GEN-END:variables
+    
+    public JComboBox getCltCmb() {
+        return CltCmb;
+    }
+    
+    public void setCltCmb(JComboBox CltCmb) {
+        this.CltCmb = CltCmb;
+    }
+    
+    public JComboBox getTeCmb() {
+        return teCmb;
+    }
+    
+    public void setTeCmb(JComboBox teCmb) {
+        this.teCmb = teCmb;
+    }
+    
+    public JComboBox getTemCmb() {
+        return temCmb;
+    }
+    
+    public void setTemCmb(JComboBox temCmb) {
+        this.temCmb = temCmb;
+    }
+    
+    
 }

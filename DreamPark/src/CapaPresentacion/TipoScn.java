@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package CapaPresentacion;
 
 import CapaNegocios.NEvento;
@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,11 +21,13 @@ import javax.swing.table.DefaultTableModel;
  * @author jfpal
  */
 public class TipoScn extends javax.swing.JFrame {
-
+    
+    private static TipoScn tpsc = new TipoScn();
+    
     /**
      * Creates new form TipoScn
      */
-    public TipoScn() {
+    private TipoScn() {
         initComponents();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
@@ -32,7 +36,13 @@ public class TipoScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
         GetData();
     }
-
+    
+    public static TipoScn getTpsc() {
+        return tpsc;
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +68,11 @@ public class TipoScn extends javax.swing.JFrame {
         CancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         SaveBtn.setText("GUARDAR");
         SaveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -118,8 +133,13 @@ public class TipoScn extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        crgTbl.setEnabled(false);
+        crgTbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         crgTbl.getTableHeader().setReorderingAllowed(false);
+        crgTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                crgTblMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(crgTbl);
         if (crgTbl.getColumnModel().getColumnCount() > 0) {
             crgTbl.getColumnModel().getColumn(0).setResizable(false);
@@ -209,7 +229,7 @@ public class TipoScn extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
         SaveData();
@@ -217,9 +237,9 @@ public class TipoScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
-
+        
     }//GEN-LAST:event_SaveBtnActionPerformed
-
+    
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
         // TODO add your handling code here:
         this.NomTxt.enable(true);
@@ -228,11 +248,11 @@ public class TipoScn extends javax.swing.JFrame {
         this.SaveBtn.setVisible(true);
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
-
+        
     }//GEN-LAST:event_EditBtnActionPerformed
-
+    
     private void CrearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBtnActionPerformed
-
+        
         this.IngBtn.setVisible(true);
         this.NomTxt.enable(true);
         this.descTxt.enable(true);
@@ -243,7 +263,7 @@ public class TipoScn extends javax.swing.JFrame {
         this.descTxt.setText("");
         this.crgTbl.enable(false);
     }//GEN-LAST:event_CrearBtnActionPerformed
-
+    
     private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
         PushData();
         this.NomTxt.enable(false);
@@ -255,18 +275,18 @@ public class TipoScn extends javax.swing.JFrame {
         else{
             this.CancelBtn.setVisible(true);
         }
-
+        
     }//GEN-LAST:event_IngBtnActionPerformed
-
+    
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
         DeleteData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
-
+        GetData();
     }//GEN-LAST:event_ElimBtnActionPerformed
-
+    
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
         // TODO add your handling code here:
         boolean flag=true;
@@ -281,7 +301,7 @@ public class TipoScn extends javax.swing.JFrame {
         if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
             this.EditBtn.setVisible(true);
             this.ElimBtn.setVisible(true);
-
+            
             this.NomTxt.enable(false);
             this.descTxt.enable(false);
             this.crgTbl.enable(false);
@@ -298,7 +318,42 @@ public class TipoScn extends javax.swing.JFrame {
             this.crgTbl.enable(false);
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
-
+    
+    private void crgTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crgTblMouseClicked
+        // TODO add your handling code here:
+        this.CrearBtn.setVisible(false);
+        this.EditBtn.setVisible(true);
+        this.ElimBtn.setVisible(true);
+        this.CancelBtn.setVisible(true);
+        int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
+        this.NomTxt.setText((String)this.crgTbl.getModel().getValueAt(index, 0));
+        this.descTxt.setText((String)this.crgTbl.getModel().getValueAt(index, 1));
+        
+    }//GEN-LAST:event_crgTblMouseClicked
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Object obj=null;
+        RsrvScn rs = RsrvScn.getRscn();
+        javax.swing.JComboBox teCmb = rs. getTeCmb();
+        
+        int size = rs. getTeCmb().getItemCount();
+        for(int i=size-1;i>=0;i--){
+            obj =teCmb.getItemAt(i);
+            
+                if(!obj.equals(" ")){
+                    if(!obj.equals("<Editar>")){
+                        teCmb.removeItemAt(i);
+                    }
+                    
+                }
+            
+            
+        }
+        rs.GetDataTipos();
+        
+    }//GEN-LAST:event_formWindowClosed
+    
     /**
      * @param args the command line arguments
      */
@@ -306,8 +361,8 @@ public class TipoScn extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -325,7 +380,7 @@ public class TipoScn extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TipoScn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -334,22 +389,22 @@ public class TipoScn extends javax.swing.JFrame {
         });
     }
     
-    public void GetData(){
-         ResultSet rs = null;
+    protected void GetData(){
+        ResultSet rs = null;
         DefaultTableModel model=null;
-       
+        
         try {
             
             rs = new NEvento().MostrarTipos();
             if(this.crgTbl.getRowCount()!=0){
-                 model = (DefaultTableModel)this.crgTbl.getModel();
+                model = (DefaultTableModel)this.crgTbl.getModel();
                 model.setRowCount(0);
             }
             
             model = (DefaultTableModel)this.crgTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getString("Nombre"), 
+                model.addRow( new Object[] {rs.getString("Nombre"),
                     rs.getString("Descripcion")});
             }
             this.crgTbl.setModel(model);
@@ -358,22 +413,22 @@ public class TipoScn extends javax.swing.JFrame {
         }
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             if((this.NomTxt.getText().equals(""))||
                     (this.descTxt.getText().equals(""))){
                 if(this.NomTxt.getText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Nombre. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
-
+                    
                 }
                 if(this.descTxt.getText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Descripcion. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
-
+                    
                 }
                 
             }
-           else{
+            else{
                 rpta = NEvento.IngresarTipo(this.NomTxt.getText(), this.descTxt.getText());
                 if (rpta.equals("OK")){
                     JOptionPane.showMessageDialog(new JFrame(),"Ingresado con exito...");
@@ -386,7 +441,7 @@ public class TipoScn extends javax.swing.JFrame {
                 }
                 else{
                     JOptionPane.showMessageDialog(new JFrame(),rpta);
-
+                    
                 }
                 
                 
@@ -394,61 +449,61 @@ public class TipoScn extends javax.swing.JFrame {
             
         }
         catch(Exception e){
-                   JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
-
+            JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+            
         }
         GetData();
     }
     
-    public void SaveData(){
+    protected void SaveData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
             //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
             rpta = NEvento.EditarTipo(this.NomTxt.getText(), this.descTxt.getText());
             if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
-                    this.NomTxt.setText("");
-                    this.descTxt.setText("");
-                    this.NomTxt.enable(false);
-                    this.descTxt.enable(false);
-                    this.EditBtn.setVisible(true);
-                    this.ElimBtn.setVisible(true);
-                    this.SaveBtn.setVisible(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
+                JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                this.NomTxt.setText("");
+                this.descTxt.setText("");
+                this.NomTxt.enable(false);
+                this.descTxt.enable(false);
+                this.EditBtn.setVisible(true);
+                this.ElimBtn.setVisible(true);
+                this.SaveBtn.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         GetData();
     }
     
-    public void DeleteData(){
+    protected void DeleteData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
             //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
             rpta = NEvento.EliminarTipo(this.NomTxt.getText());
             if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
-                    this.NomTxt.setText("");
-                    this.descTxt.setText("");
-                    this.NomTxt.enable(false);
-                    this.descTxt.enable(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
+                JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
+                this.NomTxt.setText("");
+                this.descTxt.setText("");
+                this.NomTxt.enable(false);
+                this.descTxt.enable(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         GetData();
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JButton CrearBtn;

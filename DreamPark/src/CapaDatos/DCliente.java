@@ -41,6 +41,21 @@ public class DCliente extends DPersona{
         return rs;
     }
     
+    public ResultSet Mostrar2() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Cliente2";
+        try{            
+            rs = st.executeQuery(query);           
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }        
+        return rs;
+    }
+    
     public ResultSet MostrarNombres() throws SQLException{
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();

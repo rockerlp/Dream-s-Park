@@ -176,25 +176,25 @@ public class MainScn extends javax.swing.JFrame {
 
     private void ResBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResBtnActionPerformed
         // TODO add your handling code here:
-        RsrvScn rscn = new RsrvScn();
+        RsrvScn rscn = RsrvScn.getRscn();
         rscn.setVisible(true);
     }//GEN-LAST:event_ResBtnActionPerformed
 
     private void ProvBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProvBtnActionPerformed
         // TODO add your handling code here:
-        ProvScn pScn = new ProvScn();
+        ProvScn pScn = ProvScn.getPrv();
         pScn.setVisible(true);
     }//GEN-LAST:event_ProvBtnActionPerformed
 
     private void CompBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompBtnActionPerformed
         // TODO add your handling code here:
-        InventarioScn cScn = new InventarioScn();
-        cScn.setVisible(true);
+        ComprasScn cmo = ComprasScn.getCmp();
+        cmo.setVisible(true);
     }//GEN-LAST:event_CompBtnActionPerformed
 
     private void EmpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmpBtnActionPerformed
         // TODO add your handling code here:
-        EmpleadoScn eScn = new EmpleadoScn();
+        EmpleadoScn eScn = EmpleadoScn.getEmp();
         eScn.setVisible(true);
     }//GEN-LAST:event_EmpBtnActionPerformed
 
@@ -206,7 +206,7 @@ public class MainScn extends javax.swing.JFrame {
 
     private void ClieBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClieBtnActionPerformed
         // TODO add your handling code here:
-        CltScn clt = new CltScn();
+        CltScn clt = CltScn.getClt();
         clt.setVisible(true);
     }//GEN-LAST:event_ClieBtnActionPerformed
 

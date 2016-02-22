@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package CapaPresentacion;
 
 import CapaNegocios.NEmpleado;
@@ -28,11 +28,11 @@ import javax.swing.table.DefaultTableModel;
  * @author jfpal
  */
 public class EditarHorarioScn extends javax.swing.JFrame {
-
+    private static EditarHorarioScn edtH = new EditarHorarioScn();
     /**
      * Creates new form EditarHorarioScn
      */
-    public EditarHorarioScn() {
+    private EditarHorarioScn() {
         initComponents();
         GetData();
         this.IngBtn.setVisible(false);
@@ -45,7 +45,13 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         //this.inSpn.setValue("00:00:00");
         //this.fnSpn.setValue("00:00:00");
     }
-
+    
+    public static EditarHorarioScn getEdtH() {
+        return edtH;
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,6 +85,11 @@ public class EditarHorarioScn extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(666, 470));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         ElimBtn.setText("ELIMINAR");
         ElimBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +274,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
         // TODO add your handling code here:
         boolean flag=true;
@@ -272,18 +283,18 @@ public class EditarHorarioScn extends javax.swing.JFrame {
             this.IngBtn.setVisible(false);
             this.CancelBtn.setVisible(false);
             this.NomTxt.enable(false);
-        this.horTbl.enable(false);
-        this.inSpn.setEnabled(false);
-        this.fnSpn.setEnabled(false);
+            this.horTbl.enable(false);
+            this.inSpn.setEnabled(false);
+            this.fnSpn.setEnabled(false);
         }
         if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
             this.EditBtn.setVisible(true);
             this.ElimBtn.setVisible(true);
-
+            
             this.NomTxt.enable(false);
-        this.horTbl.enable(false);
-        this.inSpn.setEnabled(false);
-        this.fnSpn.setEnabled(false);
+            this.horTbl.enable(false);
+            this.inSpn.setEnabled(false);
+            this.fnSpn.setEnabled(false);
             this.SaveBtn.setVisible(false);
             flag=false;
         }
@@ -293,11 +304,11 @@ public class EditarHorarioScn extends javax.swing.JFrame {
             this.CrearBtn.setVisible(true);
             this.CancelBtn.setVisible(false);
             this.NomTxt.setText("");
-        this.inSpn.setValue("00:00:00");
-        this.fnSpn.setValue("00:00:00");
+            this.inSpn.setValue("00:00:00");
+            this.fnSpn.setValue("00:00:00");
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
-
+    
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
         DeleteData();
         this.EditBtn.setVisible(false);
@@ -305,7 +316,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
     }//GEN-LAST:event_ElimBtnActionPerformed
-
+    
     private void IngBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngBtnActionPerformed
         PushData();
         this.NomTxt.enable(false);
@@ -319,9 +330,9 @@ public class EditarHorarioScn extends javax.swing.JFrame {
             this.CancelBtn.setVisible(true);
         }
     }//GEN-LAST:event_IngBtnActionPerformed
-
+    
     private void CrearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBtnActionPerformed
-
+        
         this.IngBtn.setVisible(true);
         this.NomTxt.enable(true);
         this.horTbl.enable(true);
@@ -333,7 +344,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         //this.inSpn.setValue("00:00:00");
         //this.fnSpn.setValue("00:00:00");
     }//GEN-LAST:event_CrearBtnActionPerformed
-
+    
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
         // TODO add your handling code here:
         this.NomTxt.enable(true);
@@ -344,7 +355,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
     }//GEN-LAST:event_EditBtnActionPerformed
-
+    
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
         SaveData();
@@ -353,18 +364,18 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
         this.CrearBtn.setVisible(true);
     }//GEN-LAST:event_SaveBtnActionPerformed
-
+    
     private void inSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_inSpnStateChanged
         
         this.inSpn.setToolTipText("Changed");
         
         
     }//GEN-LAST:event_inSpnStateChanged
-
+    
     private void fnSpnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_fnSpnStateChanged
         this.fnSpn.setToolTipText("Changed");
     }//GEN-LAST:event_fnSpnStateChanged
-
+    
     private void horTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_horTblMouseClicked
         // TODO add your handling code here:
         this.CrearBtn.setVisible(false);
@@ -372,25 +383,50 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         this.ElimBtn.setVisible(true);
         this.CancelBtn.setVisible(true);
         int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
-        this.NomTxt.setText((String)this.horTbl.getModel().getValueAt(index, 0)); 
+        this.NomTxt.setText((String)this.horTbl.getModel().getValueAt(index, 0));
         //String timeIn = new SimpleDateFormat("HH:mm:ss").format((String)this.horTbl.getModel().getValueAt(index, 1));
         //String timeFn= new SimpleDateFormat("HH:mm:ss").format((String)this.horTbl.getModel().getValueAt(index, 2));
-        //SpinnerDateModel  
+        //SpinnerDateModel
         SimpleDateFormat fm = new SimpleDateFormat("HH:mm:ss");
         
         try {
             this.inSpn.setValue(fm.parseObject((String)this.horTbl.getModel().getValueAt(index, 1)));
             this.fnSpn.setValue(fm.parseObject((String)this.horTbl.getModel().getValueAt(index, 2)));
-
+            
         } catch (ParseException ex) {
             Logger.getLogger(EditarHorarioScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         //this.DirTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 2));
-        //this.TelfTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 3)); 
-    
+        //this.TelfTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 3));
+        
     }//GEN-LAST:event_horTblMouseClicked
-
+    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        
+        Object obj=null;
+        EmpleadoScn emp = EmpleadoScn.getEmp();
+        javax.swing.JComboBox hCmb = emp.getHorCombo();
+        
+        int size = emp.getHorCombo().getItemCount();
+        for(int i=size-1;i>=0;i--){
+            obj =hCmb.getItemAt(i);
+            
+            if(!obj.equals(" ")){
+                if(!obj.equals("<Editar>")){
+                    hCmb.removeItemAt(i);
+                }
+                
+            }
+        }
+        
+        
+        
+        emp.GetDataHorario();
+        
+    }//GEN-LAST:event_formWindowClosed
+    
     /**
      * @param args the command line arguments
      */
@@ -398,8 +434,8 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -417,7 +453,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(EditarHorarioScn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -426,22 +462,22 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         });
     }
     
-    public void GetData(){
-         ResultSet rs = null;
+    protected void GetData(){
+        ResultSet rs = null;
         DefaultTableModel model=null;
-       
+        
         try {
             
             rs = new NEmpleado().MostrarHorarios();
             if(this.horTbl.getRowCount()!=0){
-                 model = (DefaultTableModel)this.horTbl.getModel();
+                model = (DefaultTableModel)this.horTbl.getModel();
                 model.setRowCount(0);
             }
             
             model = (DefaultTableModel)this.horTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getString("Nombre"), 
+                model.addRow( new Object[] {rs.getString("Nombre"),
                     rs.getString("Inicio"),rs.getString("Fin")});
             }
             this.horTbl.setModel(model);
@@ -450,7 +486,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
         }
     }
     
-    public void PushData(){
+    protected void PushData(){
         Date date = new Date();
         SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
         try{
@@ -460,19 +496,19 @@ public class EditarHorarioScn extends javax.swing.JFrame {
                     (this.fnSpn.getToolTipText().equals(""))){
                 if(this.NomTxt.getText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo Nombre. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
-
+                    
                 }
                 if(this.inSpn.getToolTipText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo de hora de inicio. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
-
+                    
                 }
                 if(this.fnSpn.getToolTipText().equals("")){
                     JOptionPane.showMessageDialog(new JFrame(),"No ha ingresado datos en el campo de hora Final. Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
-
+                    
                 }
                 
             }
-           else{
+            else{
                 String timeIn= new SimpleDateFormat("HH:mm").format(this.inSpn.getValue())+":00";
                 String timeFn= new SimpleDateFormat("HH:mm").format(this.fnSpn.getValue())+":00";
                 
@@ -489,7 +525,7 @@ public class EditarHorarioScn extends javax.swing.JFrame {
                 }
                 else{
                     JOptionPane.showMessageDialog(new JFrame(),rpta);
-
+                    
                 }
                 
                 
@@ -497,65 +533,65 @@ public class EditarHorarioScn extends javax.swing.JFrame {
             
         }
         catch(Exception e){
-                   JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
-
+            JOptionPane.showMessageDialog(new JFrame(),e.getMessage()+e.getStackTrace());
+            
         }
         GetData();
     }
     
-    public void SaveData(){
+    protected void SaveData(){
         int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
         String timeIn= new SimpleDateFormat("h:mm a").format(this.inSpn.getValue())+":00";
         String timeFn= new SimpleDateFormat("h:mm a").format(this.fnSpn.getValue())+":00";
-                
+        
         String rpta="";
         try {
             //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
             rpta = NEmpleado.EditarHorario(this.NomTxt.getText(), timeIn, timeFn);
             if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
-                    this.NomTxt.setText("");
-                    this.NomTxt.enable(false);
-                    this.inSpn.enable(false);
-                    this.fnSpn.enable(false);
-                    this.EditBtn.setVisible(true);
-                    this.ElimBtn.setVisible(true);
-                    this.SaveBtn.setVisible(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
+                JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
+                this.NomTxt.setText("");
+                this.NomTxt.enable(false);
+                this.inSpn.enable(false);
+                this.fnSpn.enable(false);
+                this.EditBtn.setVisible(true);
+                this.ElimBtn.setVisible(true);
+                this.SaveBtn.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         GetData();
     }
     
-    public void DeleteData(){
+    protected void DeleteData(){
         int index = this.horTbl.convertRowIndexToModel(this.horTbl.getSelectedRow());
         String rpta="";
         try {
             //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
             rpta = NEmpleado.EliminarHorario(this.NomTxt.getText());
             if (rpta.equals("OK")){
-                    JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
-                    this.NomTxt.setText("");
-                    
-                    this.NomTxt.enable(false);
-                    this.inSpn.enable(false);
-                    this.fnSpn.enable(false);
-                }
-                else{
-                    JOptionPane.showMessageDialog(new JFrame(),rpta);
-
-                }
+                JOptionPane.showMessageDialog(new JFrame(),"Eliminado con exito...");
+                this.NomTxt.setText("");
+                
+                this.NomTxt.enable(false);
+                this.inSpn.enable(false);
+                this.fnSpn.enable(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(new JFrame(),rpta);
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
         }
         GetData();
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JButton CrearBtn;

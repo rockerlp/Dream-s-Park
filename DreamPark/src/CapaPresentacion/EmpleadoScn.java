@@ -28,11 +28,11 @@ import javax.swing.table.DefaultTableModel;
  * @author jfpal
  */
 public class EmpleadoScn extends javax.swing.JFrame {
-    
+    private static EmpleadoScn emp = new EmpleadoScn();
     /**
      * Creates new form EmpleadoScn
      */
-    public EmpleadoScn() {
+    private EmpleadoScn() {
         initComponents();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
@@ -43,6 +43,12 @@ public class EmpleadoScn extends javax.swing.JFrame {
         GetDataHorario();
         GetDataCargo();
     }
+
+    public static EmpleadoScn getEmp() {
+        return emp;
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -217,9 +223,19 @@ public class EmpleadoScn extends javax.swing.JFrame {
 
         crgCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
         crgCmb.setEnabled(false);
+        crgCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crgCmbActionPerformed(evt);
+            }
+        });
 
         horCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
         horCombo.setEnabled(false);
+        horCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -471,8 +487,48 @@ public class EmpleadoScn extends javax.swing.JFrame {
         //this.crgCombo.setSelectedIndex(0);
         //this.horCombo.setSelectedIndex(0);
     }//GEN-LAST:event_CrearBtnActionPerformed
+
+    private void crgCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crgCmbActionPerformed
+        // TODO add your handling code here:
+        EditarCargoScn edtc = EditarCargoScn.getEdtC();
+        
+        this.crgCmb.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    
+                    edtc.setVisible(true);
+                }
+            }
+        });
+        
+    }//GEN-LAST:event_crgCmbActionPerformed
+
+    private void horComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horComboActionPerformed
+        // TODO add your handling code here:
+        EditarHorarioScn edth = EditarHorarioScn.getEdtH();
+        this.horCombo.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    
+                    edth.setVisible(true);
+                }
+            }
+        });
+        
+        
+    }//GEN-LAST:event_horComboActionPerformed
             
-    public void GetData(){
+    protected void GetData(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -499,7 +555,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         }
     }
     
-    public void GetDataCargo(){
+    protected void GetDataCargo(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -523,7 +579,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         
     }
     
-    public void GetDataHorario(){
+    protected void GetDataHorario(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         
@@ -547,7 +603,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             if((this.ciTxt.getText().equals(""))||(this.nomTxt.getText().equals(""))||(this.apeTxt.getText().equals(""))||(this.dirTxt.getText().equals(""))||(this.fnacTxt.getText().equals(""))||(this.crgCmb.getSelectedItem().equals("<Editar>"))||(this.horCombo.getSelectedItem().equals("<Editar>"))){
@@ -652,7 +708,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         });
     }
     
-    public int getCargoId(){
+    protected int getCargoId(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         int id=0;
@@ -670,7 +726,7 @@ public class EmpleadoScn extends javax.swing.JFrame {
         return 0;
     }
     
-    public int getHorarioId(){
+    protected int getHorarioId(){
         ResultSet rs = null;
         DefaultTableModel model=null;
         int id=0;
@@ -713,6 +769,22 @@ public class EmpleadoScn extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nomTxt;
     // End of variables declaration//GEN-END:variables
+
+    public JComboBox getCrgCmb() {
+        return crgCmb;
+    }
+
+    public void setCrgCmb(JComboBox crgCmb) {
+        this.crgCmb = crgCmb;
+    }
+
+    public JComboBox getHorCombo() {
+        return horCombo;
+    }
+
+    public void setHorCombo(JComboBox horCombo) {
+        this.horCombo = horCombo;
+    }
     
     
     

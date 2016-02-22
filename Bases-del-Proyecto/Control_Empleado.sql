@@ -14,6 +14,21 @@ end
 delimiter ;
 
 delimiter |
+create view Mostrar_Empleado_Nombre as
+	select p.nombres,p.apellidos from Empleado e join Persona p on p.idPersona=e.Persona_idPersona;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Empleado_Nombre(in nom varchar(25),in ape varchar(25))
+begin 	
+	select p.idPersona from Empleado e join Persona p on p.idPersona=e.Persona_idPersona;
+end
+|
+delimiter ;
+
+delimiter |
 create view Mostrar_Empleado as
 	select p.CI_RUC as Cedula,p.nombres as Nombres,p.apellidos as Apellidos, timestampdiff(year, p.fechaNacimiento,curdate()) as Edad,p.direccion as Direccion,c.Nombre as Cargo,h.Nombre as Horario
 	from Persona p,Empleado e,Cargo c,Horario h 

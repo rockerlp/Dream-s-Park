@@ -7,10 +7,18 @@ package CapaPresentacion;
 
 import CapaNegocios.NEvento;
 import CapaNegocios.NReservacion;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -104,6 +112,12 @@ public class EvntScn extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        evntTbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        evntTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                evntTblMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(evntTbl);
         if (evntTbl.getColumnModel().getColumnCount() > 0) {
             evntTbl.getColumnModel().getColumn(0).setResizable(false);
@@ -115,6 +129,11 @@ public class EvntScn extends javax.swing.JFrame {
         jLabel2.setText("Fecha");
 
         fltrCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Activos", "Completados", "Cancelados" }));
+        fltrCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fltrCmbActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Filtrar");
 
@@ -143,9 +162,19 @@ public class EvntScn extends javax.swing.JFrame {
 
         teCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
         teCmb.setEnabled(false);
+        teCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teCmbActionPerformed(evt);
+            }
+        });
 
         CltCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
         CltCmb.setEnabled(false);
+        CltCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CltCmbActionPerformed(evt);
+            }
+        });
 
         itmTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -183,14 +212,14 @@ public class EvntScn extends javax.swing.JFrame {
             }
         });
 
-        ElimBtn.setText("ELIMINAR");
+        ElimBtn.setText("CANCELAR");
         ElimBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ElimBtnActionPerformed(evt);
             }
         });
 
-        CancelBtn.setText("CANCELAR");
+        CancelBtn.setText("REGRESAR");
         CancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelBtnActionPerformed(evt);
@@ -201,6 +230,11 @@ public class EvntScn extends javax.swing.JFrame {
 
         temCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "<Editar>" }));
         temCmb.setEnabled(false);
+        temCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                temCmbActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Cliente");
 
@@ -344,7 +378,7 @@ public class EvntScn extends javax.swing.JFrame {
     
     private void EditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBtnActionPerformed
         // TODO add your handling code here:
-        this.fchDate.enable(true);
+        this.fchDate.setEnabled(true);
         this.descTxt.enable(true);
         this.prcTxt.enable(true);
         this.salTxt.enable(true);
@@ -361,11 +395,24 @@ public class EvntScn extends javax.swing.JFrame {
     
     private void SaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveBtnActionPerformed
         // TODO add your handling code here:
-        //SaveData();
+        SaveData();
         this.EditBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
-        
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.fchDate.setEnabled(false);
+        this.descTxt.enable(false);
+        this.prcTxt.enable(false);
+        this.salTxt.enable(false);
+        this.npTxt.enable(false);
+        this.CltCmb.enable(false);
+        this.teCmb.enable(false);
+        this.temCmb.enable(false);
+        this.agrBtn.setVisible(false);
+        this.itmTbl.enable(false);
+        DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+        model.setRowCount(0);
+        this.itmTbl.setModel(model);
     }//GEN-LAST:event_SaveBtnActionPerformed
     
     private void ElimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ElimBtnActionPerformed
@@ -382,7 +429,7 @@ public class EvntScn extends javax.swing.JFrame {
         if(!this.EditBtn.isVisible()&&!this.ElimBtn.isVisible()){
             
             this.CancelBtn.setVisible(false);
-            this.fchDate.enable(false);
+            this.fchDate.setEnabled(false);
             this.descTxt.enable(false);
             this.prcTxt.enable(false);
             this.salTxt.enable(false);
@@ -392,11 +439,12 @@ public class EvntScn extends javax.swing.JFrame {
             this.temCmb.enable(false);
             this.agrBtn.setVisible(false);
             this.itmTbl.enable(false);
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
         }
         if(!this.EditBtn.isVisible()&&this.SaveBtn.isVisible()&&!this.ElimBtn.isVisible()){
             this.EditBtn.setVisible(true);
             this.ElimBtn.setVisible(true);
-            this.fchDate.enable(false);
+            this.fchDate.setEnabled(false);
             this.descTxt.enable(false);
             this.prcTxt.enable(false);
             this.salTxt.enable(false);
@@ -407,12 +455,13 @@ public class EvntScn extends javax.swing.JFrame {
             this.agrBtn.setVisible(false);
             this.itmTbl.enable(false);
             this.SaveBtn.setVisible(false);
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
             flag=false;
         }
         if(this.EditBtn.isVisible()&&this.ElimBtn.isVisible()&&!this.SaveBtn.isVisible()&&flag){
             this.EditBtn.setVisible(false);
             this.ElimBtn.setVisible(false);
-            
+            this.fchDate.setEnabled(false);
             this.CancelBtn.setVisible(false);
             this.fchDate.setDateFormatString("");
             this.descTxt.setText("");
@@ -426,8 +475,163 @@ public class EvntScn extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
             model.setRowCount(0);
             this.itmTbl.setModel(model);
+            this.fchDate.setDateFormatString("yyyy-MM-dd");
         }
     }//GEN-LAST:event_CancelBtnActionPerformed
+
+    private void evntTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_evntTblMouseClicked
+        // TODO add your handling code here:
+        //this.CrearBtn.setVisible(false);
+        ResultSet rs = null;
+        
+        Date date = null;
+        
+        if(this.fltrCmb.getSelectedItem().equals("Cancelados")
+                ||this.fltrCmb.getSelectedItem().equals("Completados")){
+            this.EditBtn.setVisible(false);
+            this.ElimBtn.setVisible(false);
+            this.CancelBtn.setVisible(false);
+        }
+        else{
+            this.EditBtn.setVisible(true);
+            this.ElimBtn.setVisible(true);
+            this.CancelBtn.setVisible(true);
+        }
+        
+        int index = this.evntTbl.convertRowIndexToModel(this.evntTbl.getSelectedRow());
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = formatter.parse((String)this.evntTbl.getModel().getValueAt(index, 0));
+        } catch (ParseException ex) {
+            Logger.getLogger(RsrvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.fchDate.setDate(date);
+        this.descTxt.setText((String)this.evntTbl.getModel().getValueAt(index, 2));
+        this.prcTxt.setText(""+this.evntTbl.getModel().getValueAt(index, 3));
+        
+        ComboBoxModel cmbmodel = this.CltCmb.getModel();
+        int size = cmbmodel.getSize();
+        for(int i=0;i<size;i++) {
+            Object element = cmbmodel.getElementAt(i);
+            if(element.equals(this.evntTbl.getModel().getValueAt(index, 1))){
+                this.CltCmb.setSelectedIndex(i);
+            }
+        }
+        try {
+            String client = (String)this.evntTbl.getModel().getValueAt(index, 1);
+            String[] split =client.split(" ");
+            String fech=(String)this.evntTbl.getModel().getValueAt(index, 0);
+            rs = new NReservacion().InfoEvento(fech, split[0], split[1]);
+            
+            
+            if(rs.next()){
+                
+                String pr = rs.getString("salon");
+                this.salTxt.setText(pr);
+                this.npTxt.setText(String.valueOf(rs.getInt("numero")));
+                ComboBoxModel cmbmodel2 = this.temCmb.getModel();
+                ComboBoxModel cmbmodel3 = this.teCmb.getModel();
+                int size2 = cmbmodel2.getSize();
+                int size3 = cmbmodel3.getSize();
+                for(int i=0;i<size2;i++) {
+                    Object element = cmbmodel2.getElementAt(i);
+                    if(element.equals(rs.getString("tematica"))){
+                        this.temCmb.setSelectedIndex(i);
+                    } else {
+                    }
+                }
+                for(int i=0;i<size3;i++) {
+                    Object element = cmbmodel3.getElementAt(i);
+                    if(element.equals(rs.getString("tipo"))){
+                        this.teCmb.setSelectedIndex(i);
+                    } else {
+                    }
+                }
+            }
+            //this.rsrTbl.setModel(model);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProvScn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_evntTblMouseClicked
+
+    private void CltCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CltCmbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CltCmbActionPerformed
+
+    private void teCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teCmbActionPerformed
+        // TODO add your handling code here:
+        TipoScn tscn = TipoScn.getTpsc();;
+        this.teCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    
+                    tscn.setVisible(true);
+                }
+            }
+        });
+    }//GEN-LAST:event_teCmbActionPerformed
+
+    private void temCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temCmbActionPerformed
+        // TODO add your handling code here:
+        this.temCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                if(selectedBook.equals("<Editar>")){
+                    TematicaScn tmscn = TematicaScn.getTmsc();
+                    tmscn.setVisible(true);
+                }
+            }
+        });
+    }//GEN-LAST:event_temCmbActionPerformed
+
+    private void fltrCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fltrCmbActionPerformed
+        // TODO add your handling code here:
+        this.EditBtn.setVisible(false);
+        this.ElimBtn.setVisible(false);
+        this.CancelBtn.setVisible(false);
+        this.fchDate.setDateFormatString("yyyy-MM-dd");
+        this.descTxt.setText("");
+        this.prcTxt.setText("");
+        this.salTxt.setText("");
+        this.npTxt.setText("");
+        this.CltCmb.setSelectedIndex(0);
+        this.teCmb.setSelectedIndex(0);
+        this.temCmb.setSelectedIndex(0);
+        this.agrBtn.setVisible(false);
+        DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
+        model.setRowCount(0);
+        this.itmTbl.setModel(model);
+        this.fltrCmb.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> combo = (JComboBox<String>) e.getSource();
+                String selectedBook = (String) combo.getSelectedItem();
+                
+                
+                if(selectedBook.equals("Activos")){
+                    GetDataActivos();
+                    
+                    
+                }
+                if(selectedBook.equals("Completados")){
+                    GetDataCompletados();
+                }
+                if(selectedBook.equals("Cancelados")){
+                    GetDataCancelados();
+                }
+            }
+        });
+    }//GEN-LAST:event_fltrCmbActionPerformed
             
     /**
      * @param args the command line arguments
@@ -469,27 +673,29 @@ public class EvntScn extends javax.swing.JFrame {
         String rpta="";
         String rpta2="";
         try {
+            String desc=this.descTxt.getText();
             int idTem = NEvento.BuscarTematicaNombre(this.temCmb.getSelectedItem().toString());
             int idTip = NEvento.BuscarTipoNombre(this.teCmb.getSelectedItem().toString());
             int idEstE = NEvento.BuscarEstadoNombre("Activado");
-            int idEv=NReservacion.BuscarEvento(this.fchDate.getDate().toString(),
-                    this.descTxt.getText(),this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    Double.parseDouble(this.prcTxt.getText()));
+            int an = this.fchDate.getDate().getYear()+1900;
+            int mon=this.fchDate.getDate().getMonth()+1;
+            int day =this.fchDate.getDate().getDate();
+            String fch = ""+an+"-0"+mon+"-"+day;
+            String salon=this.salTxt.getText();
+            int np = Integer.parseInt(this.npTxt.getText());
+            double pr = Double.parseDouble(this.prcTxt.getText());
+            int idEv=NReservacion.BuscarEvento(fch,desc,salon,np,pr);
+            rpta2=NEvento.Editar(idEv,fch,salon,np, desc,pr,idTem, idTip, idEstE);
             String Clt=this.CltCmb.getSelectedItem().toString();
             String[] split=Clt.split(" ");
             int idC = NReservacion.BuscarCliente(split[0], split[1]);
             int idEstR=NReservacion.BuscarEstadoReservacion("Activado");
-            //int i=Integer.parseInt(this.Prov_Tbl.getModel().getValueAt(index, 0).toString());
-            rpta2=NEvento.Editar(idEv,this.fchDate.getDate().toString(),
-                    this.salTxt.getText(),
-                    Integer.parseInt(this.npTxt.getText()),
-                    this.descTxt.getText() ,
-                    Double.parseDouble(this.prcTxt.toString()),
-                    idTem, idTip, idEstE);
-            rpta = NReservacion.Editar(Integer.parseInt(this.evntTbl.getModel().getValueAt(index, 0).toString())
-                    ,this.fchDate.getDate().toString(), this.descTxt.getText(), Double.parseDouble(this.prcTxt.toString()),
-                    idEv,idC,idEstR );
+            int idR = NReservacion.BuscarIdReservacion(idEv, fch, idC);
+            
+            rpta = NReservacion.Editar(idR,fch,
+                    desc,
+                    pr, idEv,
+                    idC, idEstR);
             if (rpta.equals("OK")&&rpta2.equals("OK")){
                 JOptionPane.showMessageDialog(new JFrame(),"Editado con exito...");
                 this.fchDate.setDateFormatString("yyyy-MM-dd");
@@ -503,7 +709,6 @@ public class EvntScn extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel)this.itmTbl.getModel();
                 model.setRowCount(0);
                 this.itmTbl.setModel(model);
-                
                 this.EditBtn.setVisible(true);
                 this.ElimBtn.setVisible(true);
                 this.SaveBtn.setVisible(false);
@@ -535,7 +740,9 @@ public class EvntScn extends javax.swing.JFrame {
             while(rs.next()){
                 model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio"),rs.getString(null) });
+                    rs.getString("descripcion"),rs.getDouble("costo"),rs.getInt("numPersonas"),
+                    rs.getString("salon"), rs.getString("tematica"),
+                    rs.getString("tipo")});
             }
             this.evntTbl.setModel(model);
         } catch (SQLException ex) {
@@ -558,9 +765,11 @@ public class EvntScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.evntTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("costo"),rs.getInt("numPersonas"),
+                    rs.getString("salon"), rs.getString("tematica"),
+                    rs.getString("tipo") });
             }
             this.evntTbl.setModel(model);
         } catch (SQLException ex) {
@@ -583,9 +792,11 @@ public class EvntScn extends javax.swing.JFrame {
             model = (DefaultTableModel)this.evntTbl.getModel();
             
             while(rs.next()){
-                model.addRow( new Object[] {rs.getInt("fecha"),
+                model.addRow( new Object[] {rs.getString("fecha"),
                     rs.getString("nombres")+" "+rs.getString("apellidos"),
-                    rs.getString("descripcion"),rs.getDouble("precio") });
+                    rs.getString("descripcion"),rs.getDouble("costo"),rs.getInt("numPersonas"),
+                    rs.getString("salon"), rs.getString("tematica"),
+                    rs.getString("tipo") });
             }
             this.evntTbl.setModel(model);
         } catch (SQLException ex) {
@@ -662,7 +873,7 @@ public class EvntScn extends javax.swing.JFrame {
             
             while(rs.next()){
                 
-                this.CltCmb.addItem(rs.getString(1));
+                this.CltCmb.addItem(rs.getString(1)+" "+rs.getString(2));
             }
             //this.empTbl.setModel(model);
         } catch (SQLException ex) {

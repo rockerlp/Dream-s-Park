@@ -21,6 +21,14 @@ create view Mostrar_Cliente as
 delimiter ;
 
 delimiter |
+create view Mostrar_Cliente2 as
+	select c.idCliente,p.CI_RUC,p.nombres,p.apellidos,p.fechaNacimiento,
+	p.direccion	from Persona p join Cliente c on p.idPersona=c.Persona_idPersona;
+
+|
+delimiter ;
+
+delimiter |
 create view Mostrar_Cliente_NA as
 	select p.nombres,p.apellidos from Persona p join Cliente c on p.idPersona=c.Persona_idPersona;
 

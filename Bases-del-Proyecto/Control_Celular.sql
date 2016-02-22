@@ -1,6 +1,7 @@
 use ProyectoBD;
 
 
+
 delimiter |
 create procedure insertar_Celular(in num int,in idC int, in idP int)
 begin 

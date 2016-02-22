@@ -5,9 +5,15 @@
  */
 package CapaDatos;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
- * @author jfpal
+ * @author lhtc9
  */
 public class DFactura {
     private int idFactura;
@@ -18,7 +24,6 @@ public class DFactura {
     private double ivaDoce;
     private double total;
     private int idEventos;
-
     public DFactura() {
     }
 
@@ -32,7 +37,55 @@ public class DFactura {
         this.total = total;
         this.idEventos = idEventos;
     }
-
+    public String InsertarFactura(DFactura df) throws SQLException{
+        Connection con = new Conexion().getCon();
+        CallableStatement calStat=null;
+        ResultSet rs=null;
+        String resp="";
+        String query ="{call insertar_Factura(?,?,?,?,?,?,?)}";
+        try{
+            calStat = con.prepareCall(query);
+            calStat.setString(1, df.getFecha());
+            calStat.setString(2, df.getDescripcion());
+            calStat.setDouble(3, df.getSubtotal());
+            calStat.setDouble(4, df.getIvaCero());
+            calStat.setDouble(5, df.getIvaDoce());
+            calStat.setDouble(6, df.getTotal());
+            calStat.setInt(7, df.getIdEventos());
+            rs=calStat.executeQuery();
+            if(rs!=null){
+               resp = "OK";
+            }else{
+               resp="No se Ingreso al Registro...";
+            }
+        }
+        catch(Exception e){
+            return resp=e.getMessage();
+        }
+        finally{
+            if(calStat !=null){
+                calStat.close();
+            }
+            if(con!=null){
+                con.close();
+            }
+        }
+        return  resp;
+    }
+    public ResultSet Mostrar() throws SQLException{
+        Connection con = new Conexion().getCon();
+        Statement st =con.createStatement();
+        ResultSet rs=null;
+        String query ="select * from Mostrar_Factura";
+        try{            
+            rs = st.executeQuery(query);
+        }
+        catch(Exception e){
+            rs=null;
+            System.out.println(e);
+        }
+        return rs;
+    }
     public int getIdFactura() {
         return idFactura;
     }

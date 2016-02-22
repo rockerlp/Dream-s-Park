@@ -1,7 +1,5 @@
 use ProyectoBD;
-select * from Eventos;
-select * from Reservacion;
-call Buscar_Evento("2016-02-13","dsfgsdfg","asdfads",20,20.3);
+
 delimiter |
 create procedure insertar_Evento(in fech date,
 in sal varchar(15),in np int, in des varchar(100),
@@ -16,7 +14,6 @@ begin
 end
 |
 delimiter ;
-drop procedure insertar_Evento;
 
 delimiter |
 create procedure Buscar_Evento(in fech date,in des varchar(100),in sal varchar(15),in np int,in cost double)

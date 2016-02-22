@@ -44,7 +44,7 @@ public class DReservacion {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Mostrar_Reservacion_Cliente_EstadoAct";
+        String query ="select * from Mostrar_Evento_Cliente_EstadoAct";
         try{
             rs = st.executeQuery(query);
         }
@@ -59,7 +59,7 @@ public class DReservacion {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Mostrar_Reservacion_Cliente_EstadoComp";
+        String query ="select * from Mostrar_Evento_Cliente_EstadoComp";
         try{
             rs = st.executeQuery(query);
         }
@@ -74,7 +74,7 @@ public class DReservacion {
         Connection con = new Conexion().getCon();
         Statement st =con.createStatement();
         ResultSet rs=null;
-        String query ="select * from Mostrar_Reservacion_Cliente_EstadoCan";
+        String query ="select * from Mostrar_Evento_Cliente_EstadoCan";
         try{
             rs = st.executeQuery(query);
         }

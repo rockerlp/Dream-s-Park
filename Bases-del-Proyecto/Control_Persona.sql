@@ -22,7 +22,7 @@ delimiter |
 create procedure Editar_persona(in idPers int,in CR varchar(13),in nom varchar(25),in ape varchar(25),in fnac date, in dir varchar(35))
 begin 
 	set foreign_key_checks=0;
-	update Persona set CI_RUC=CR ,Nombre=nom, apellidos=ape , fechaNacimiento=fnac ,direccion=dir where idPersona=idPers;
+	update Persona set CI_RUC=CR ,nombres=nom, apellidos=ape , fechaNacimiento=fnac ,direccion=dir where idPersona=idPers;
 	set foreign_key_checks=1;
 end
 |

@@ -49,7 +49,6 @@ begin
 end
 |
 delimiter ;
-
 call insertar_Estado_Evento("Activado","");
 call insertar_Estado_Evento("Completado","");
 call insertar_Estado_Evento("Cancelado","");

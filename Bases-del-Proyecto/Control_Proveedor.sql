@@ -9,7 +9,20 @@ end
 |
 delimiter ;
 
+delimiter |
+create procedure Buscar_Proveedor_Nombre(in nom varchar(25))
+begin 	
+	select idProveedor from Proveedor where nombre=nom;
+end
+|
+delimiter ;
 
+delimiter |
+create view Mostrar_Proveedor_Nombre as
+	select nombre from Proveedor;
+
+|
+delimiter ;
 
 delimiter |
 create view Mostrar_Proveedor as

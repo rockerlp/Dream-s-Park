@@ -425,8 +425,8 @@ public class DEvento {
         return  resp;
     }
     
-    public String EditarTematica(String nom, String desc) throws SQLException{
-        int idTem = BuscarTematicaNombre(nom);
+    public String EditarTematica(int idTem,String nom, String desc) throws SQLException{
+        //int idTem = BuscarTematicaNombre(nom);
         Connection con = new Conexion().getCon();        
         CallableStatement calStat=null;
         ResultSet rs=null;

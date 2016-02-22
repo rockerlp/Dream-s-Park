@@ -22,10 +22,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ProvScn extends javax.swing.JFrame {
 
+    private static ProvScn prv = new ProvScn();
+    
     /**
      * Creates new form ProvScn
      */
-    public ProvScn() {
+    private  ProvScn() {
         initComponents();
         GetData();
         this.IngBtn.setVisible(false);
@@ -35,6 +37,12 @@ public class ProvScn extends javax.swing.JFrame {
         this.CancelBtn.setVisible(false);
     }
 
+    public static ProvScn getPrv() {
+        return prv;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +70,11 @@ public class ProvScn extends javax.swing.JFrame {
         CancelBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         CrearBtn.setText("CREAR");
         CrearBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +127,6 @@ public class ProvScn extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        Prov_Tbl.setFocusable(false);
         Prov_Tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Prov_Tbl.getTableHeader().setReorderingAllowed(false);
         Prov_Tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -330,12 +342,37 @@ public class ProvScn extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void Prov_TblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Prov_TblMouseClicked
-        
+        this.CrearBtn.setVisible(false);
+        this.EditBtn.setVisible(true);
+        this.ElimBtn.setVisible(true);
+        this.CancelBtn.setVisible(true);
         int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
         this.NomTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 1)); 
         this.DirTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 2));
         this.TelfTxt.setText((String)this.Prov_Tbl.getModel().getValueAt(index, 3)); 
     }//GEN-LAST:event_Prov_TblMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Object obj=null;
+        ComprasScn cmo = ComprasScn.getCmp();
+        javax.swing.JComboBox provCmb = cmo.getProvCmb();
+        
+        int size = cmo.getProvCmb().getItemCount();
+        for(int i=size-1;i>=0;i--){
+            obj =provCmb.getItemAt(i);
+            
+                if(!obj.equals(" ")){
+                    if(!obj.equals("<Editar>")){
+                        provCmb.removeItemAt(i);
+                    }
+                    
+                }
+            
+            
+        }
+        cmo.GetDataProv();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -372,7 +409,7 @@ public class ProvScn extends javax.swing.JFrame {
         });
     }
     
-    public void DeleteData(){
+    protected void DeleteData(){
         int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
         String rpta="";
         try {
@@ -397,7 +434,7 @@ public class ProvScn extends javax.swing.JFrame {
         GetData();
     }
     
-    public void SaveData(){
+    protected void SaveData(){
         int index = this.Prov_Tbl.convertRowIndexToModel(this.Prov_Tbl.getSelectedRow());
         String rpta="";
         try {
@@ -427,7 +464,7 @@ public class ProvScn extends javax.swing.JFrame {
     
    
     
-    public void GetData(){
+    protected void GetData(){
          ResultSet rs = null;
         DefaultTableModel model=null;
        
@@ -450,7 +487,7 @@ public class ProvScn extends javax.swing.JFrame {
         }
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             if((this.DirTxt.getText().equals(""))||(this.TelfTxt.getText().equals(""))||(this.NomTxt.getText().equals(""))){

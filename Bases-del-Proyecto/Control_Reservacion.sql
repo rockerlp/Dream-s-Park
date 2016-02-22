@@ -1,8 +1,5 @@
 use ProyectoBD;
 
-CALL `ProyectoBD`.`Buscar_Evento_Cliente_Activo`("2016-02-11", "Jorge", "Fierro");
-
-
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Buscar_Evento_Cliente_Activo`(in fech date, in nom varchar(45),in ape varchar(45))
 begin 
@@ -30,6 +27,12 @@ end
 |
 delimiter ;
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `BuscarId_Reservacion`(in idEv int,in fech date,in idC int)
+begin 
+	select r.idReservacion from Reservacion r where r.Eventos_idEventos=idEv and r.fecha=fech and r.Cliente_idCliente=idC;
+end$$
+DELIMITER ;
 
 
 delimiter |

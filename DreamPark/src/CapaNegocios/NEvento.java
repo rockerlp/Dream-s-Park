@@ -54,8 +54,8 @@ public class NEvento {
         return new DEvento().InsertarTematica(nom, desc);
     }
     
-    public static String EditarTematica(String nom, String desc) throws SQLException{
-        return new DEvento().EditarTematica(nom, desc);
+    public static String EditarTematica(int idTem,String nom, String desc) throws SQLException{
+        return new DEvento().EditarTematica(idTem,nom, desc);
     }
     
     public static String EliminarTematica(String nom) throws SQLException{

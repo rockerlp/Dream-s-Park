@@ -1,11 +1,10 @@
 use ProyectoBD;
 
-
 delimiter |
 create procedure insertar_Compras(in fech date, in des varchar(45),in cant int,in prec double, in idP int, in idE int)
 begin 
 	set foreign_key_checks=0;
-	insert into Compras (fecha,descripcion,cantidad,precio,Proveedor_idProveedor,Empleado_idEmpleado)values( fech ,  des , cant,prec,idP.idE);
+	insert into Compras (fecha,descripcion,cantidad,precio,Proveedor_idProveedor,Empleado_idEmpleado)values( fech ,  des , cant,prec,idP,idE);
 	set foreign_key_checks=1;
 end
 |

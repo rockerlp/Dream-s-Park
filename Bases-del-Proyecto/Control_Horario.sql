@@ -1,8 +1,5 @@
 use ProyectoBD;
 
-CALL `ProyectoBD`.`Buscar_Evento_Cliente_Activo`("2016-02-11", "Jorge", "Fierro");
-
-
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Buscar_Evento_Cliente_Activo`(in fech date, in nom varchar(45),in ape varchar(45))
 begin 
@@ -88,6 +85,140 @@ create procedure Borrar_Reservacion (in idR int)
 begin 
 	
 	delete from Reservacion  where idReservacion=idR;
+	
+end
+|
+delimiter ;
+
+delimiter |
+create procedure insertar_Cargo(in nom varchar(20),in des varchar(100))
+begin 
+	insert into Cargo (Nombre,Descripcion)values(nom,des);
+end
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Cargo_Completo as
+	select * from Cargo;
+
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Cargo as
+	select Nombre,Descripcion from Cargo;
+
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Cargo_Nombres as
+	select Nombre from Cargo;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Mostrar_Cargo_Desc(in nom varchar(20))
+begin 
+	
+	select descripcion from Cargo where Nombre=nom;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Cargo_Nombre(in nom varchar(20))
+begin 
+	
+	select idCargo from Cargo where Nombre=nom;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Buscar_Horario_Nombre(in nom varchar(45))
+begin 
+	
+	select idHorario from Horario where Nombre=nom;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Editar_Cargo(in idC int, in nom varchar(20),in des varchar(100))
+begin 
+	
+	update Cargo set Nombre=nom,Descripcion=des where idCargo=idC;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Borrar_Cargo(in idC int)
+begin 
+	
+	delete from Cargo where idCargo=idC;
+	
+end
+|
+delimiter ;
+
+
+delimiter |
+create procedure insertar_Horario(in nom varchar(45),in hi time, in hf time)
+begin 
+	insert into Horario (Hora_Inicio, Hora_Fin,Nombre)values(hi,hf,nom);
+end
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Horario as
+	select Nombre as Nombre,Hora_Inicio as Inicio,Hora_FIn as Fin from Horario;
+
+|
+delimiter ;
+
+delimiter |
+create view Mostrar_Horario_Nombre as
+	select Nombre from Horario;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Mostrar_Horario_H(in nom varchar(45))
+	select Hora_Inicio as Inicio,Hora_FIn as Fin from Horario where Nombre=nom;
+
+|
+delimiter ;
+
+delimiter |
+create procedure Editar_Horario(in idh int, in nom varchar(45),in hi time, in hf time)
+begin 
+	
+	update Horario set Hora_Inicio=hi, Hora_Fin=hf,Nombre=nom where idHorario=idh;
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Borrar_Horario(in idh int)
+begin 
+	
+	delete from Horario where idHorario=idh;
+	
+end
+|
+delimiter ;
+
+delimiter |
+create procedure Borrar_Horario_Nombre(in nom varchar(45))
+begin 
+	
+	delete from Horario where Nombre=nom;
 	
 end
 |

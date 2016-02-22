@@ -20,18 +20,25 @@ import javax.swing.table.DefaultTableModel;
  * @author jfpal
  */
 public class EditarCargoScn extends javax.swing.JFrame {
-    
+    private static EditarCargoScn edtC = new EditarCargoScn();
     /**
      * Creates new form EditarCargo
      */
-    public EditarCargoScn() {
+    private EditarCargoScn() {
         initComponents();
+        GetData();
         this.IngBtn.setVisible(false);
         this.SaveBtn.setVisible(false);
         this.ElimBtn.setVisible(false);
         this.EditBtn.setVisible(false);
         this.CancelBtn.setVisible(false);
     }
+
+    public static EditarCargoScn getEdtC() {
+        return edtC;
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +69,9 @@ public class EditarCargoScn extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
         });
 
         jLabel1.setText("Cargos");
@@ -84,11 +94,11 @@ public class EditarCargoScn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Title 1", "Nombre", "Descripcion"
+                "Nombre", "Descripcion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -98,11 +108,8 @@ public class EditarCargoScn extends javax.swing.JFrame {
         crgTbl.setEnabled(false);
         jScrollPane2.setViewportView(crgTbl);
         if (crgTbl.getColumnModel().getColumnCount() > 0) {
-            crgTbl.getColumnModel().getColumn(0).setMinWidth(0);
-            crgTbl.getColumnModel().getColumn(0).setPreferredWidth(0);
-            crgTbl.getColumnModel().getColumn(0).setMaxWidth(0);
+            crgTbl.getColumnModel().getColumn(0).setResizable(false);
             crgTbl.getColumnModel().getColumn(1).setResizable(false);
-            crgTbl.getColumnModel().getColumn(2).setResizable(false);
         }
 
         ElimBtn.setText("ELIMINAR");
@@ -310,6 +317,29 @@ public class EditarCargoScn extends javax.swing.JFrame {
         // TODO add your handling code here:
         //EmpleadoScn.ge
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        
+        Object obj=null;
+        EmpleadoScn emp = EmpleadoScn.getEmp();
+        javax.swing.JComboBox crgCmb = emp.getCrgCmb();
+        
+        int size = emp.getCrgCmb().getItemCount();
+        for(int i=size-1;i>=0;i--){
+            obj =crgCmb.getItemAt(i);
+            
+                if(!obj.equals(" ")){
+                    if(!obj.equals("<Editar>")){
+                        crgCmb.removeItemAt(i);
+                    }
+                    
+                }
+            
+            
+        }
+        emp.GetDataCargo();
+    }//GEN-LAST:event_formWindowClosed
     
     /**
      * @param args the command line arguments
@@ -347,7 +377,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
         });
     }
     
-    public void GetData(){
+    protected void GetData(){
          ResultSet rs = null;
         DefaultTableModel model=null;
        
@@ -371,7 +401,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
         }
     }
     
-    public void PushData(){
+    protected void PushData(){
         try{
             String rpta="";
             if((this.NomTxt.getText().equals(""))||
@@ -413,7 +443,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
         GetData();
     }
     
-    public void SaveData(){
+    protected void SaveData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
@@ -439,7 +469,7 @@ public class EditarCargoScn extends javax.swing.JFrame {
         GetData();
     }
     
-    public void DeleteData(){
+    protected void DeleteData(){
         int index = this.crgTbl.convertRowIndexToModel(this.crgTbl.getSelectedRow());
         String rpta="";
         try {
